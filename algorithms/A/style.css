@@ -1,0 +1,33 @@
+.sizeInput {
+	max-width: 500px;
+	margin: 10px;
+}
+
+.size {
+	padding: 10px;
+}
+
+.size__legend {
+	margin-left: 10px;
+}
+
+.sizeInput__p {
+	font-size: 12px;
+	color: #adb5bd;
+}
+
+.size__input {
+	max-width: 150px;
+	margin-bottom: 5px;
+}
+
+.size__button {
+	padding: 10px;
+	background-color: white;
+	border: solid black 1px;
+	border-radius: 7px;
+}
+
+.size__button:hover, .size__button:active {
+	background-color: #d8dee9;
+}

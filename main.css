@@ -1,6 +1,42 @@
-*,
-html,
-body {
-    margin: 0;
-    padding: 0;
-} 
+main {
+    margin-top: 5%;
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.algs {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.alg {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    border: solid black 1px;
+    margin-bottom: 5px;
+}
+
+.alg:hover {
+    background-color: #d8dee9;
+}
+
+.alg:active {
+    background-color: #d8dee9;
+}
+
+.alg__link {
+    width: 100%;
+    text-decoration: none;
+    color: black;
+}
+
+.alg__link:active {
+    color:black;
+}
