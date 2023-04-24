@@ -37,17 +37,22 @@ export class Graph {
 			for (let i = 0; i < size - 1; i++) {
 				let x = matrix[i][j];
 				let y = matrix[i + 1][j];
-
 				this.#createEdge(x, y);
-			}
-		}
 
-		for (let i = 0; i < size; i++) {
-			for (let j = 0; j < (size - 1); j++) {
-				let x = matrix[i][j];
-				let y = matrix[i][j + 1];
+				if (j !== (this.size - 1)) {
+					y = matrix[i+1][j+1];
+					this.#createEdge(x, y);
+				}
 
-				this.#createEdge(x,y);
+				x = matrix[j][i];
+				y = matrix[j][i + 1];
+				this.#createEdge(x, y)
+
+				if ((j !== 0) && (j !== 0)) {
+					y = matrix[j - 1][i - 1];
+					this.#createEdge(x, y);
+				}
+
 			}
 		}
 	}
@@ -104,6 +109,21 @@ export class Graph {
 			nodesAround.push(this.M[x - 1][y], this.M[x + 1][y]);
 		}
 
+		if ((x === 0) && (y === 0)) {
+			nodesAround.push(this.M[x+1][y+1]);
+		} else if (x === 0) {
+			nodesAround.push(this.M[x+1][y-1], this.M[x+1][y+1]);
+		} else if (y === 0) {
+			nodesAround.push(this.M[x-1][y + 1], this.M[x + 1][y +1]);
+		} else if ( (x === (this.size - 1)) && (y === (this.size - 1)) ) {
+			nodesAround.push(this.M[x - 1][y - 1]);
+		} else if (x === (this.size - 1)) {
+			nodesAround.push(this.M[x - 1][y - 1], this.M[x - 1][y + 1]);
+		} else if (y === (this.size - 1)) {
+			nodesAround.push(this.M[x - 1][y - 1], this.M[x + 1][y - 1]);
+		} else {
+			nodesAround.push(this.M[x - 1][y - 1], this.M[x - 1][y + 1], this.M[x + 1][y - 1], this.M[x + 1][y + 1]);
+		}
 		return nodesAround;
 	}
 }
