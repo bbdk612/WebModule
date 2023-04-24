@@ -1,6 +1,18 @@
 import {randInt} from "./functionStack";
 
 export class Graph {
+	#createEdge(Node1, Node2){
+		if (!(Node1 in this.noWayNodes)) {
+			if (!(Node1 in this.adjacencyList)) {
+				this.adjacencyList[Node1] = new Set();
+			}
+			if (!(Node2 in this.noWayNodes)) {
+				this.adjacencyList[Node1].add(Node2);
+				(Node2 in this.adjacencyList) ? (this.adjacencyList[Node2].add(Node1)) : (this.adjacencyList[Node2] = new Set(Node1)); // here is creates back connection on node
+				// if y in AL then x just adding to AL[y] else in AL creates a new set with value x
+			}
+		}
+	}
 	constructor(size) {
 		let Size = size * size;
 
@@ -26,7 +38,7 @@ export class Graph {
 				let x = matrix[i][j];
 				let y = matrix[i + 1][j];
 
-				this.createConnect(x, y);
+				this.#createEdge(x, y);
 			}
 		}
 
@@ -35,7 +47,7 @@ export class Graph {
 				let x = matrix[i][j];
 				let y = matrix[i][j + 1];
 
-				this.createConnect(x,y);
+				this.#createEdge(x,y);
 			}
 		}
 	}
@@ -69,18 +81,7 @@ export class Graph {
 		delete simpleNodeNumbers[finishIndex];
 	}
 
-	createEdge(Node1, Node2){
-		if (!(Node1 in this.noWayNodes)) {
-			if (!(Node1 in this.adjacencyList)) {
-				this.adjacencyList[Node1] = new Set();
-			}
-			if (!(Node2 in this.noWayNodes)) {
-				this.adjacencyList[Node1].add(Node2);
-				(Node2 in this.adjacencyList) ? (this.adjacencyList[Node2].add(Node1)) : (this.adjacencyList[Node2] = new Set(Node1)); // here is creates back connection on node
-				// if y in AL then x just adding to AL[y] else in AL creates a new set with value x
-			}
-		}
-	}
+
 
 	lookAround(NodeNumber) {
 		let x = Math.floor((NodeNumber - 1) / this.size) ;
