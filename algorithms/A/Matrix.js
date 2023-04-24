@@ -11,7 +11,7 @@ export class Graph {
 		for (let i = 0; i < size; i++) {
 			matrix.push(Array());
 			for (let j = 0; j < size; j++) {
-				console.log(counter)
+//				console.log(counter)
 				matrix[i].push(counter);
 				counter++;
 			}
@@ -68,7 +68,8 @@ export class Graph {
 		this.finish = simpleNodeNumbers[finishIndex];
 		delete simpleNodeNumbers[finishIndex];
 	}
-	createConnect(Node1, Node2){
+
+	createEdge(Node1, Node2){
 		if (!(Node1 in this.noWayNodes)) {
 			if (!(Node1 in this.adjacencyList)) {
 				this.adjacencyList[Node1] = new Set();
@@ -89,10 +90,18 @@ export class Graph {
 		if (y === (this.size - 1)) {
 			nodesAround.push(this.M[x][y - 1])
 		} else if (y === 0) {
-			nodesAround.push([this.M[x][y + 1], this.M[x][y-1]]);
+			nodesAround.push(this.M[x][y + 1]);
+		} else {
+			nodesAround.push(this.M[x][y - 1], this.M[x][y + 1]);
 		}
 
-		if (x == 0)
+		if (x === 0) {
+			nodesAround.push(this.M[x + 1][y]);
+		} else if (x === (this.size - 1)) {
+			nodesAround.push(this.M[x - 1][y]);
+		} else {
+			nodesAround.push(this.M[x - 1][y], this.M[x + 1][y]);
+		}
 
 		return nodesAround;
 	}
