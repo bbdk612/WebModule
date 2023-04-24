@@ -1,38 +1,42 @@
 class Matrix {
 	constructor(size) {
-		let numberOfNoWayNodes = Math.floor(Math.random() * ((size - 2) - 1 + 1)) + 1;
-		this.noWayNodes = Array();
+		let Size = size * size;
+		let numberOfNoWayNodes = this.randomNumber(Size - 2, 1);
+		this.noWayNodes = Array(numberOfNoWayNodes);
 		let noWayNode;
-		do {
-			noWayNode = Math.floor(Math.random() * (size - 1 + 1)) + 1;
-			if (!(noWayNode in this.noWayNodes)) {
-				this.noWayNodes.push(noWayNode)
-			}
-		} while(noWayNode.length !== numberOfNoWayNodes);
 
-		this.start = -1;
-		this.finish = -1;
-		while (this.start === -1) {
-			this.start = Math.floor(Math.random() * (size - 1 + 1)) + 1;
-			if (this.start in noWayNode) {
-				this.start = -1;
-			}
-		}
-		while (this.finish === -1) {
-			this.finish = Math.floor(Math.random() * (size - 1 + 1)) + 1;
-			if ((this.finish in noWayNode) || (this.finish === this.start)) {
-				this.finish = -1;
-			}
+		let simpleNodeNumbers = Array(Size);
+		for (let i = 0; i < Size; i++) {
+			simpleNodeNumbers[i] = i+1;
 		}
 
-		this.matrix = Array(size).fill(Array(size));
+		for (let i = 0; i < numberOfNoWayNodes; i++) {
+			let indexNoWayNode = this.randomNumber(Size);
+			noWayNode = simpleNodeNumbers[indexNoWayNode];
+			delete simpleNodeNumbers[indexNoWayNode];
+		}
+
+		let matrix = Array();
+		let counter = 1;
 		for (let i = 0; i < size; i++) {
+			matrix.push(Array());
 			for (let j = 0; j < size; j++) {
-
+				console.log(counter)
+				matrix[i].push(counter);
+				counter++;
 			}
 		}
+
+		for(let m of matrix){
+			console.log(m);
+		}
+//		this.M = matrix;
 	}
-	
+
+	randomNumber(max, min=0) {
+		return Math.floor(Math.random()*(max - min + 1) + min);
+	}
+
 	regenerateNoWayNodes() {
 		
 	}
