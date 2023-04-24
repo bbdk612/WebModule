@@ -1,6 +1,4 @@
-import {randInt} from "./functionStack";
-
-export class Graph {
+class Graph {
 	#createEdge(Node1, Node2){
 		if (!(Node1 in this.noWayNodes)) {
 			if (!(Node1 in this.adjacencyList)) {
@@ -8,15 +6,16 @@ export class Graph {
 			}
 			if (!(Node2 in this.noWayNodes)) {
 				this.adjacencyList[Node1].add(Node2);
-				(Node2 in this.adjacencyList) ? (this.adjacencyList[Node2].add(Node1)) : (this.adjacencyList[Node2] = new Set(Node1)); // here is creates back connection on node
+				(Node2 in this.adjacencyList) ? (this.adjacencyList[Node2].add(Node1)) : (this.adjacencyList[Node2] = new Set([Node1])); // here is creates back connection on node
 				// if y in AL then x just adding to AL[y] else in AL creates a new set with value x
 			}
 		}
 	}
+
 	constructor(size) {
 		let Size = size * size;
 
-		this.generateNoWayNodesStartFinish(Size);
+		this.generateNoWayNodesStartFinish(size);
 
 		let matrix = Array();
 		let counter = 1;
@@ -60,30 +59,35 @@ export class Graph {
 	generateNoWayNodesStartFinish(size) {
 		this.size = size;
 		let Size = size * size;
-		let simpleNodeNumbers = Array(Size);
+		let simpleNodeNumbers = Array();
 		for (let i = 0; i < Size; i++) {
-			simpleNodeNumbers[i] = i+1;
+			simpleNodeNumbers.push(i+1);
 		}
 
 		// GENERATE NOWAY NODES
 		let numberOfNoWayNodes = randInt(Size - 2, 1);
-		this.noWayNodes = Array(numberOfNoWayNodes);
+		this.noWayNodes = Array();
+
 		let noWayNode;
 		for (let i = 0; i < numberOfNoWayNodes; i++) {
-			let indexNoWayNode = randInt(simpleNodeNumbers.length);
+			let indexNoWayNode = randInt(simpleNodeNumbers.length - 1);
 			noWayNode = simpleNodeNumbers[indexNoWayNode];
-			delete simpleNodeNumbers[indexNoWayNode];
+			this.noWayNodes.push(noWayNode);
+			simpleNodeNumbers.splice(indexNoWayNode, 1);
 		}
-
+		console.log("simpleNodeNumbers: ", simpleNodeNumbers);
+		console.log(this.noWayNodes);
 		// GENERATE START
-		let startIndex = randInt(simpleNodeNumbers.length);
+		let startIndex = randInt(simpleNodeNumbers.length - 1);
 		this.start = simpleNodeNumbers[startIndex];
-		delete simpleNodeNumbers[startIndex];
+		console.log(this.start)
+		simpleNodeNumbers.splice(startIndex, 1);
 
 		// GENERATE FINISH
-		let finishIndex = randInt(simpleNodeNumbers.length);
+		let finishIndex = randInt(simpleNodeNumbers.length - 1);
 		this.finish = simpleNodeNumbers[finishIndex];
-		delete simpleNodeNumbers[finishIndex];
+		simpleNodeNumbers.splice(finishIndex);
+		console.log(this.finish);
 	}
 
 
@@ -93,6 +97,7 @@ export class Graph {
 		let y = (NodeNumber - 1) % this.size;
 
 		let nodesAround = [];
+
 		if (y === (this.size - 1)) {
 			nodesAround.push(this.M[x][y - 1])
 		} else if (y === 0) {
@@ -124,6 +129,7 @@ export class Graph {
 		} else {
 			nodesAround.push(this.M[x - 1][y - 1], this.M[x - 1][y + 1], this.M[x + 1][y - 1], this.M[x + 1][y + 1]);
 		}
+
 		return nodesAround;
 	}
 }
