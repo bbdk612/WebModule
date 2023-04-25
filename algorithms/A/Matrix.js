@@ -75,22 +75,25 @@ class Graph {
 			this.noWayNodes.push(noWayNode);
 			simpleNodeNumbers.splice(indexNoWayNode, 1);
 		}
-		console.log("simpleNodeNumbers: ", simpleNodeNumbers);
-		console.log(this.noWayNodes);
+
 		// GENERATE START
 		let startIndex = randInt(simpleNodeNumbers.length - 1);
 		this.start = simpleNodeNumbers[startIndex];
-		console.log(this.start)
 		simpleNodeNumbers.splice(startIndex, 1);
 
 		// GENERATE FINISH
 		let finishIndex = randInt(simpleNodeNumbers.length - 1);
 		this.finish = simpleNodeNumbers[finishIndex];
 		simpleNodeNumbers.splice(finishIndex);
-		console.log(this.finish);
+
 	}
 
+	coordinatesOfNode(nodeNumber) {
+		let x = Math.floor((nodeNumber - 1) / this.size);
+		let y = (nodeNumber - 1) % this.size;
 
+		return [x, y];
+	}
 
 	lookAround(NodeNumber) {
 		let x = Math.floor((NodeNumber - 1) / this.size) ;
