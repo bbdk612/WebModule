@@ -1,5 +1,5 @@
 class Graph {
-	#createEdge(Node1, Node2){
+	createEdge(Node1, Node2) {
 		if (!(Node1 in this.noWayNodes)) {
 			if (!(Node1 in this.adjacencyList)) {
 				this.adjacencyList[Node1] = new Set();
@@ -10,6 +10,11 @@ class Graph {
 				// if y in AL then x just adding to AL[y] else in AL creates a new set with value x
 			}
 		}
+	}
+
+	destroyEdge(Node1, Node2) {
+		this.adjacencyList[Node1].delete(Node2);
+		this.adjacencyList[Node2].delete(Node1);
 	}
 
 	constructor(size) {
@@ -36,20 +41,20 @@ class Graph {
 			for (let i = 0; i < size - 1; i++) {
 				let x = matrix[i][j];
 				let y = matrix[i + 1][j];
-				this.#createEdge(x, y);
+				this.createEdge(x, y);
 
 				if (j !== (this.size - 1)) {
-					y = matrix[i+1][j+1];
-					this.#createEdge(x, y);
+					y = matrix[i + 1][j + 1];
+					this.createEdge(x, y);
 				}
 
 				x = matrix[j][i];
 				y = matrix[j][i + 1];
-				this.#createEdge(x, y)
+				this.createEdge(x, y)
 
 				if ((j !== 0) && (j !== 0)) {
 					y = matrix[j - 1][i - 1];
-					this.#createEdge(x, y);
+					this.createEdge(x, y);
 				}
 
 			}
@@ -61,11 +66,11 @@ class Graph {
 		let Size = size * size;
 		let simpleNodeNumbers = Array();
 		for (let i = 0; i < Size; i++) {
-			simpleNodeNumbers.push(i+1);
+			simpleNodeNumbers.push(i + 1);
 		}
 
 		// GENERATE NOWAY NODES
-		let numberOfNoWayNodes = randInt(Size - 2, 1);
+		let numberOfNoWayNodes = randInt(Math.floor(Size / 2), 1);
 		this.noWayNodes = Array();
 
 		let noWayNode;
@@ -96,7 +101,7 @@ class Graph {
 	}
 
 	lookAround(NodeNumber) {
-		let x = Math.floor((NodeNumber - 1) / this.size) ;
+		let x = Math.floor((NodeNumber - 1) / this.size);
 		let y = (NodeNumber - 1) % this.size;
 
 		let nodesAround = [];
@@ -117,13 +122,14 @@ class Graph {
 			nodesAround.push(this.M[x - 1][y], this.M[x + 1][y]);
 		}
 
+		//TODO: refactor this shitcode!
 		if ((x === 0) && (y === 0)) {
-			nodesAround.push(this.M[x+1][y+1]);
+			nodesAround.push(this.M[x + 1][y + 1]);
 		} else if (x === 0) {
-			nodesAround.push(this.M[x+1][y-1], this.M[x+1][y+1]);
+			nodesAround.push(this.M[x + 1][y - 1], this.M[x + 1][y + 1]);
 		} else if (y === 0) {
-			nodesAround.push(this.M[x-1][y + 1], this.M[x + 1][y +1]);
-		} else if ( (x === (this.size - 1)) && (y === (this.size - 1)) ) {
+			nodesAround.push(this.M[x - 1][y + 1], this.M[x + 1][y + 1]);
+		} else if ((x === (this.size - 1)) && (y === (this.size - 1))) {
 			nodesAround.push(this.M[x - 1][y - 1]);
 		} else if (x === (this.size - 1)) {
 			nodesAround.push(this.M[x - 1][y - 1], this.M[x - 1][y + 1]);

@@ -31,3 +31,38 @@
 .size__button:hover, .size__button:active {
 	background-color: #d8dee9;
 }
+
+.graph {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.graph-line {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-content: space-between;
+}
+
+.graph-node {
+	width: 100%;
+	padding: 5px;
+	border: solid black 1px;
+	color: white;
+}
+
+.no-way-node {
+	background-color: gray;
+	color: gray;
+}
+
+.start {
+	background-color: green;
+	color:green;
+}
+
+.finish {
+	background-color: red;
+	color: red;
+}
