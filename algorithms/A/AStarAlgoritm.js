@@ -41,6 +41,7 @@ AStarAlgoritm(size,start,end)
         }
 		if (min_index != 100000000)
 		{
+            //to do: create colour to "current visit" point
             //убрать min_index из массива potencial
             tmp=lookaround(min_index);
             for(let i=0;i<tmp.size();i++)
