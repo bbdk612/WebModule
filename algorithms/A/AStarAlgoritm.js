@@ -1,5 +1,6 @@
 function distanceToEnd(size, endPoint, currentPoint) {
-	return (Math.abs(currentPoint / size - endPoint / size) + Math.abs(currentPoint % size - endPoint % size));
+	return (Math.pow( (currentPoint / size - endPoint / size), 2 ) +
+			Math.pow( (currentPoint % size - endPoint % size), 2 ));// wtf??
 }
 
 function AStarAlgoritm(size, start, end) {
@@ -66,7 +67,7 @@ function AStarAlgoritm(size, start, end) {
 			tmp = lookarond(current);
 			for (let i = 0; i < tmp.size(); i++) {
 				tmp_x = minDis[current];
-				if (minDis[tmp[i]] < minDis[current] && minDis[tmp[i]] < y && used_points[tmp[i]]) {
+				if (minDis[tmp[i]] < minDis[current] && minDis[tmp[i]] < tmpX && used_points[tmp[i]]) {
 					tmp_x = minDis[tmp[i]];
 				}
 			}

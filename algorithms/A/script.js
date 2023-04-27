@@ -12,11 +12,7 @@ const button = document.querySelector(".size__button");
 let matrixSize;
 
 graphSizeInput.addEventListener("change", () => {
-	if (parseInt(graphSizeInput.value) > 100) {
-		button.disabled = true;
-	} else {
-		button.disabled = false;
-	}
+	button.disabled = parseInt(graphSizeInput.value) > 100;
 });
 
 button.addEventListener("click", () => {
