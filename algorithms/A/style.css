@@ -1,10 +1,13 @@
-.sizeInput {
-	max-width: 500px;
+.inputs {
 	margin: 10px;
+	display:flex;
+
 }
 
 .size {
 	padding: 10px;
+	display:flex;
+	flex-direction: column;
 }
 
 .size__legend {
@@ -32,8 +35,25 @@
 	background-color: #d8dee9;
 }
 
+.edit {
+	display:flex;
+	flex-direction: column;
+}
+
+.edit__no-way-nodes {
+	display:flex;
+}
+
+.edit__button {
+	background-color: white;
+	border: solid black 1px;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px;
+}
+
 .graph {
-	width: 100%;
+	max-width:5000px;
 	display: flex;
 	flex-direction: column;
 }
@@ -41,12 +61,15 @@
 .graph-line {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	align-content: space-between;
+	justify-content: start;
+	align-content: center;
 }
 
 .graph-node {
+	aspect-ratio: 1 / 1;
 	width: 100%;
+	max-width: 20px;
+	min-width: 5px;
 	padding: 5px;
 	border: solid black 1px;
 	color: white;
@@ -58,11 +81,11 @@
 }
 
 .start {
-	background-color: green;
+	background-color: rgb(0, 255, 0);
 	color:green;
 }
 
 .finish {
-	background-color: red;
+	background-color: rgb(255, 0, 0);
 	color: red;
 }
