@@ -1,25 +1,23 @@
 class Graph {
-	createEdge(Node1, Node2) {
-		if (!(Node1 in this.noWayNodes)) {
-			if (!(Node1 in this.adjacencyList)) {
-				this.adjacencyList[Node1] = new Set();
-			}
-			if (!(Node2 in this.noWayNodes)) {
-				this.adjacencyList[Node1].add(Node2);
-				(Node2 in this.adjacencyList) ? (this.adjacencyList[Node2].add(Node1)) : (this.adjacencyList[Node2] = new Set([Node1])); // here is creates back connection on node
-				// if y in AL then x just adding to AL[y] else in AL creates a new set with value x
-			}
-		}
-	}
-
-	destroyEdge(Node1, Node2) {
-		this.adjacencyList[Node1].delete(Node2);
-		this.adjacencyList[Node2].delete(Node1);
-	}
+	// createEdge(Node1, Node2) {
+	// 	if (!(Node1 in this.noWayNodes)) {
+	// 		if (!(Node1 in this.adjacencyList)) {
+	// 			this.adjacencyList[Node1] = new Set();
+	// 		}
+	// 		if (!(Node2 in this.noWayNodes)) {
+	// 			this.adjacencyList[Node1].add(Node2);
+	// 			(Node2 in this.adjacencyList) ? (this.adjacencyList[Node2].add(Node1)) : (this.adjacencyList[Node2] = new Set([Node1])); // here is creates back connection on node
+	// 			// if y in AL then x just adding to AL[y] else in AL creates a new set with value x
+	// 		}
+	// 	}
+	// }
+	//
+	// destroyEdge(Node1, Node2) {
+	// 	this.adjacencyList[Node1].delete(Node2);
+	// 	this.adjacencyList[Node2].delete(Node1);
+	// }
 
 	constructor(size) {
-		let Size = size * size;
-
 		this.generateNoWayNodesStartFinish(size);
 
 		let matrix = Array();
@@ -36,29 +34,29 @@ class Graph {
 		this.M = matrix;
 
 		// create adjacency list
-		this.adjacencyList = {};
-		for (let j = 0; j < size; j++) {
-			for (let i = 0; i < size - 1; i++) {
-				let x = matrix[i][j];
-				let y = matrix[i + 1][j];
-				this.createEdge(x, y);
-
-				if (j !== (this.size - 1)) {
-					y = matrix[i + 1][j + 1];
-					this.createEdge(x, y);
-				}
-
-				x = matrix[j][i];
-				y = matrix[j][i + 1];
-				this.createEdge(x, y)
-
-				if ((j !== 0) && (j !== 0)) {
-					y = matrix[j - 1][i - 1];
-					this.createEdge(x, y);
-				}
-
-			}
-		}
+		// this.adjacencyList = {};
+		// for (let j = 0; j < size; j++) {
+		// 	for (let i = 0; i < size - 1; i++) {
+		// 		let x = matrix[i][j];
+		// 		let y = matrix[i + 1][j];
+		// 		this.createEdge(x, y);
+		//
+		// 		if (j !== (this.size - 1)) {
+		// 			y = matrix[i + 1][j + 1];
+		// 			this.createEdge(x, y);
+		// 		}
+		//
+		// 		x = matrix[j][i];
+		// 		y = matrix[j][i + 1];
+		// 		this.createEdge(x, y)
+		//
+		// 		if ((j !== 0) && (j !== 0)) {
+		// 			y = matrix[j - 1][i - 1];
+		// 			this.createEdge(x, y);
+		// 		}
+		//
+		// 	}
+		// }
 	}
 
 	generateNoWayNodesStartFinish(size) {
@@ -181,11 +179,10 @@ class Graph {
 			//TODO: create colors to "potential" point
 			minDis[tmp[i] - 1] = this.start + 1;//TODO:заменить 1 на вес ребра
 		}
+
 		//algor
-		let timerid = setInterval(() =>{
-			if (!(potencial.length > 0)) {
-				clearInterval(timerid);
-			}
+    let visited = Array();
+		while (potencial.length > 0) {
 			minIndex = 100000000;
 
 			min = 100000000;
@@ -197,9 +194,10 @@ class Graph {
 			}
 
 			if (!notUsedPoints[this.finish-1]) {
-				console.log("finded");
-				clearInterval(timerid);
+				console.log("finded"); 
+        break;
 			}
+
 			if (minIndex !== 100000000) {
 				//TODO: убрать minIndex из массива potencial
 				let nodesAround = this.lookAround(minIndex + 1);
@@ -220,11 +218,20 @@ class Graph {
 				}
 
 			}
-			let visNode = document.querySelector(`[id="${minIndex+1}"]`);
-			visNode.classList.add("visited");
-		}, 200);
+      visited.push(minIndex + 1);
+		}
 
-		console.log("ok")
+    let i = 0;
+		let timeid = setInterval(() => {
+      let visitedNode = document.querySelector(`[id="${visited[i]}"]`);
+      visitedNode.classList.add("visited");
+      i++;
+      if (i == visited.length) {
+        clearInterval(timeid);
+      }
+
+    }, 200);
+    console.log("ok")
 		//way output
 		if (notUsedPoints[this.finish-1]) {
 			console.log("ok");
