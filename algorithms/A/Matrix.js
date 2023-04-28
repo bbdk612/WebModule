@@ -179,7 +179,7 @@ class Graph {
 		for (let i = 0; i < tmp.length; i++) {
 			potencial.push(tmp[i] - 1);
 			//TODO: create colors to "potential" point
-			minDis[tmp[i] - 1] = this.start + 1;//TODO:заменить 1 на вес ребра
+			minDis[tmp[i] - 1] = 1;//TODO:заменить 1 на вес ребра
 		}
 		//algor
 		let timerid = setInterval(() =>{
