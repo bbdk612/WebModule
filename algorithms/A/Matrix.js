@@ -177,7 +177,7 @@ class Graph {
 		for (let i = 0; i < tmp.length; i++) {
 			potencial.push(tmp[i] - 1);
 			//TODO: create colors to "potential" point
-			minDis[tmp[i] - 1] = this.start + 1;//TODO:заменить 1 на вес ребра
+			minDis[tmp[i] - 1] = minDis[this.start - 1] + 1;//TODO:заменить 1 на вес ребра
 		}
 
 		//algor
@@ -187,7 +187,7 @@ class Graph {
 
 			min = 100000000;
 			for (let i = 0; i < potencial.length; i++) {
-				if (minDis[potencial[i]] + this.approachToEnd(potencial[i]) < min) {
+				if ((minDis[potencial[i]] + this.approachToEnd(potencial[i])) < min) {
 					min = minDis[potencial[i]];
 					minIndex = potencial[i];
 				}
@@ -207,11 +207,11 @@ class Graph {
 					if (notUsedPoints[nodesAround[i] - 1]) {
 						potencial.push(nodesAround[i] - 1);
 						//TODO: create colours to "potential" point
-						minDis[nodesAround[i] - 1] = minIndex + 1;//TODO:заменить 1 на вес ребра
+						minDis[nodesAround[i] - 1] = minDis[minIndex - 1] + 1;//TODO:заменить 1 на вес ребра
 						notUsedPoints[nodesAround[i] - 1] = false;
 					} else {
 						tmpX = min + 1;
-						if (tmpX < minDis[nodesAround[i]]) {
+						if (tmpX < minDis[nodesAround[i] - 1]) {
 							minDis[nodesAround[i] - 1] = tmpX;
 						}
 					}

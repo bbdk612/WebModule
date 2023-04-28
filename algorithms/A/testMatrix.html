@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./testMatrix.css">
+	<link rel="stylesheet" href="./style.css" >
+	<title>Document</title>
+</head>
+<body>
+<main>
+	<div class="graph"></div>
+	<button>Start</button>
+</main>
+
+<script src="./functionStack.js"></script>
+<script src="./Matrix.js"></script>
+<script>
+	size = 10;
+	const G = new Graph(size);
+
+	const graph = document.querySelector(".graph");
+	console.log(G.noWayNodes);
+	let graphLine = '<h2>Граф</h2>';
+	for (let i = 0; i < size; i++) {
+
+		graphLine += `<div class="graph-line">`
+		for (let j = 0; j < size; j++) {
+			graphLine += `<div class="graph-node" id="${G.M[i][j]}"></div>`
+		}
+		graphLine += "</div>"
+	}
+
+	graph.innerHTML = "";
+	graph.innerHTML += graphLine;
+	
+	G.noWayNodes.forEach((nodeNumber) => {
+	let node = document.querySelector(`[id="${nodeNumber}"]`);
+	setTimeout(()=>{node.classList.add( "no-way-node");}, 500);
+})
+
+	let start = document.querySelector(`[id="${G.start}"]`);
+	start.classList.add("start");
+
+	let finish = document.querySelector(`[id="${G.finish}"]`);
+	finish.classList.add("finish");
+	
+	let b = document.querySelector("button");
+	b.addEventListener("click", () => {
+		G.AStarAlgoritm();
+	});
+</script>
+</body>
+</html>
