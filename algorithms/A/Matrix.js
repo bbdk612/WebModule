@@ -196,8 +196,7 @@ class Graph {
 				}
 			}
 
-			if (minIndex === this.finish-1) {
-				notUsedPoints[this.finish - 1] = false;
+			if (!notUsedPoints[this.finish-1]) {
 				console.log("finded");
 				clearInterval(timerid);
 			}
