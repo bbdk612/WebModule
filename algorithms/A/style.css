@@ -80,6 +80,10 @@
 	color: gray;
 }
 
+.visited {
+	background-color: #ebcb8b;
+}
+
 .start {
 	background-color: rgb(0, 255, 0);
 	color:green;
@@ -89,3 +93,4 @@
 	background-color: rgb(255, 0, 0);
 	color: red;
 }
+

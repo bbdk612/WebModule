@@ -101,10 +101,8 @@ class Graph {
 	}
 
 	lookAround(NodeNumber) {
-		let x = Math.floor((NodeNumber-1) / this.size);
-		let y = (NodeNumber-1) % this.size;
-
-		console.log(NodeNumber, x , y);
+		let x = Math.floor((NodeNumber - 1) / this.size);
+		let y = (NodeNumber - 1) % this.size;
 		let nodes = [];
 
 		if (y === (this.size - 1)) {
@@ -127,9 +125,17 @@ class Graph {
 		if ((x === 0) && (y === 0)) {
 			nodes.push(this.M[x + 1][y + 1]);
 		} else if (x === 0) {
-			nodes.push(this.M[x + 1][y - 1], this.M[x + 1][y + 1]);
+			if (y !== this.size - 1) {
+				nodes.push(this.M[x + 1][y - 1], this.M[x + 1][y + 1]);
+			} else {
+				nodes.push(this.M[x + 1][y - 1]);
+			}
 		} else if (y === 0) {
-			nodes.push(this.M[x - 1][y + 1], this.M[x + 1][y + 1]);
+			if (x !== this.size - 1) {
+				nodes.push(this.M[x - 1][y + 1], this.M[x + 1][y + 1]);
+			} else {
+				nodes.push(this.M[x - 1][y + 1]);
+			}
 		} else if ((x === (this.size - 1)) && (y === (this.size - 1))) {
 			nodes.push(this.M[x - 1][y - 1]);
 		} else if (x === (this.size - 1)) {
@@ -169,14 +175,19 @@ class Graph {
 		minDis[beginIndex] = 0;
 		notUsedPoints[beginIndex] = false;
 		tmp = this.lookAround(this.start);
+
 		for (let i = 0; i < tmp.length; i++) {
 			potencial.push(tmp[i] - 1);
 			//TODO: create colors to "potential" point
 			minDis[tmp[i] - 1] = this.start + 1;//TODO:заменить 1 на вес ребра
 		}
-		//algoritm
-		while (potencial.length > 0) {
+		//algor
+		let timerid = setInterval(() =>{
+			if (!(potencial.length > 0)) {
+				clearInterval(timerid);
+			}
 			minIndex = 100000000;
+
 			min = 100000000;
 			for (let i = 0; i < potencial.length; i++) {
 				if (minDis[potencial[i]] + this.approachToEnd(potencial[i]) < min) {
@@ -184,49 +195,57 @@ class Graph {
 					minIndex = potencial[i];
 				}
 			}
-			if (minIndex === this.finish - 1) {
-				break;
+
+			if (minIndex === this.finish-1) {
+				notUsedPoints[this.finish - 1] = false;
+				console.log("finded");
+				clearInterval(timerid);
 			}
 			if (minIndex !== 100000000) {
 				//TODO: убрать minIndex из массива potencial
 				let nodesAround = this.lookAround(minIndex + 1);
 				potencial.splice(potencial.indexOf(minIndex), 1);
+
 				for (let i = 0; i < nodesAround.length; i++) {
 					if (notUsedPoints[nodesAround[i] - 1]) {
 						potencial.push(nodesAround[i] - 1);
 						//TODO: create colours to "potential" point
 						minDis[nodesAround[i] - 1] = minIndex + 1;//TODO:заменить 1 на вес ребра
-						notUsedPoints[i] = false;
+						notUsedPoints[nodesAround[i] - 1] = false;
 					} else {
 						tmpX = min + 1;
-						if (tmpX < minDis[i]) {
-							minDis[i] = tmpX;
+						if (tmpX < minDis[nodesAround[i]]) {
+							minDis[nodesAround[i] - 1] = tmpX;
 						}
 					}
 				}
+
 			}
-		}
+			let visNode = document.querySelector(`[id="${minIndex+1}"]`);
+			visNode.classList.add("visited");
+		}, 200);
 
 		console.log("ok")
 		//way output
-		if (!notUsedPoints[this.finish]) {
+		if (notUsedPoints[this.finish-1]) {
 			console.log("ok");
 			return -1;
-		} else {
-			let current = this.finish;
-			while (current !== this.start) {
-				//TODO: create colouring on "current"
-				console.log(current);
-				let nodesAround = this.lookAround(current);
-
-				for (let i = 0; i < nodesAround.length; i++) {
-					tmpX = minDis[current];
-					if (minDis[nodesAround[i] - 1] < minDis[current] && minDis[nodesAround[i] - 1] < tmpX && notUsedPoints[nodesAround[i] - 1]) {
-						tmpX = minDis[nodesAround[i] - 1];
-					}
-				}
-			}
-		}
+		} //else {
+//			let current = this.finish;
+//			while (current !== this.start) {
+//				//TODO: create colouring on "current"
+//				console.log(current);
+//				let nodesAround = this.lookAround(current);
+//				tmpX = minDis[current - 1];
+//				for (let i = 0; i < nodesAround.length; i++) {
+//					if (((minDis[nodesAround[i] - 1] < minDis[current - 1]) || (minDis[nodesAround[i] - 1] < tmpX)) && (notUsedPoints[nodesAround[i] - 1])) {
+//						current = nodesAround[i];
+//						tmpX = minDis[nodesAround[i] - 1];
+//					}
+//				}
+//			}
+//			console.log(current);
+//		}
 	}
 
 	approachToEnd(nodeNumber) {
