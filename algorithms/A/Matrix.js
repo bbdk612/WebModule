@@ -258,7 +258,7 @@ class Graph {
         for (let i = 0; i < nodesAround.length; i++) {
           if (minDis[nodesAround[i]] < tmpX) {
             current = nodesAround[i];
-            tmpX = minDis[nodesAround[i] - 1];
+            tmpX = minDis[nodesAround[i]];
           }
         }
         rightPath.push(current);
