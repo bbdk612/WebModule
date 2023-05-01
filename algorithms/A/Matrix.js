@@ -181,15 +181,15 @@ class Graph {
 		for (let i = 0; i < nodesAround.length; i++) {
 			potencial.push(nodesAround[i]);
 			//TODO: create colors to "potential" point
-			minDis[nodesAround[i]] = 1;//TODO:заменить 1 на вес ребра
+			minDis[nodesAround[i]] = 2;//TODO:заменить 1 на вес ребра
 			heuristicCost[nodesAround[i]]= 	this.approachToEnd(nodesAround[i]);
 			coefficient[nodesAround[i]] = minDis[nodesAround[i]]+heuristicCost[nodesAround[i]];
 		}
 
 		//algor
     let visited = Array();
+	minIndex = this.start;
 		while (potencial.length > 0) {
-			minIndex = this.start;
 
 			min = bigNum;
 			for (let i = 0; i < potencial.length; i++) {
@@ -219,12 +219,12 @@ class Graph {
 					if (minDis[nodesAround[i]]===bigNum) {
 						potencial.push(nodesAround[i]);
 						//TODO: create colours to "potential" point
-						minDis[nodesAround[i]] = minDis[minIndex] + 1;//TODO:заменить 1 на вес ребра
+						minDis[nodesAround[i]] = minDis[minIndex] + 2;//TODO:заменить 1 на вес ребра
 						heuristicCost[nodesAround[i]]= 	this.approachToEnd(nodesAround[i]);
 						coefficient[nodesAround[i]] = minDis[nodesAround[i]]+heuristicCost[nodesAround[i]];
 					} else {
 						if (minDis[minIndex]<minDis[nodesAround[i]]){
-							minDis[nodesAround[i]]=minDis[minIndex]+1;//TODO:заменить 1 на вес ребра
+							minDis[nodesAround[i]]=minDis[minIndex]+2;//TODO:заменить 1 на вес ребра
 							coefficient[nodesAround[i]] = minDis[nodesAround[i]]+heuristicCost[nodesAround[i]];
 						}
 					}
@@ -241,28 +241,30 @@ class Graph {
         clearInterval(timeid);
       }
 
-    }, 200);
+    }, 50);
     console.log("ok");
 		//way output
 		if (minDis[this.finish]!=bigNum) {
 			console.log("ok");
 			return -1;
-		} //else {
-//			let current = this.finish;
-//			while (current !== this.start) {
-//				//TODO: create colouring on "current"
-//				console.log(current);
-//				let nodesAround = this.lookAround(current);
-//				tmpX = minDis[current - 1];
-//				for (let i = 0; i < nodesAround.length; i++) {
-//					if (((minDis[nodesAround[i] - 1] < minDis[current - 1]) || (minDis[nodesAround[i] - 1] < tmpX)) && (notUsedPoints[nodesAround[i] - 1])) {
-//						current = nodesAround[i];
-//						tmpX = minDis[nodesAround[i] - 1];
-//					}
-//				}
-//			}
-//			console.log(current);
-//		}
+		} else {
+			let current = this.finish;
+			let rightPath= Array();
+			while (current !== this.start) {
+				//TODO: create colouring on "current"
+				console.log(current);
+				nodesAround = this.lookAround(current);
+				let tmpX = minDis[current];
+				for (let i = 0; i < nodesAround.length; i++) {
+					if (minDis[nodesAround[i]] < tmpX) {
+						current = nodesAround[i];
+						tmpX = minDis[nodesAround[i] - 1];
+					}
+				}
+				rightPath.push(current)
+			}
+			console.log(current);
+		}
 	}
 	approachToEnd(nodeNumber) {
 		let {x, y} = this.coordinatesOfNode(nodeNumber);
