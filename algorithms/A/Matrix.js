@@ -21,7 +21,7 @@ class Graph {
 		this.generateNoWayNodesStartFinish(size);
 
 		let matrix = Array();
-		let counter = 1;
+		let counter = 0;
 		for (let i = 0; i < size; i++) {
 			matrix.push(Array());
 			for (let j = 0; j < size; j++) {
@@ -64,7 +64,7 @@ class Graph {
 		let Size = size * size;
 		let simpleNodeNumbers = Array();
 		for (let i = 0; i < Size; i++) {
-			simpleNodeNumbers.push(i + 1);
+			simpleNodeNumbers.push(i);
 		}
 
 		// GENERATE NOWAY NODES
@@ -92,15 +92,15 @@ class Graph {
 	}
 
 	coordinatesOfNode(nodeNumber) {
-		let x = Math.floor((nodeNumber - 1) / this.size);
-		let y = (nodeNumber - 1) % this.size;
+		let x = Math.floor((nodeNumber) / this.size);
+		let y = (nodeNumber) % this.size;
 
 		return {x, y};
 	}
 
 	lookAround(NodeNumber) {
-		let x = Math.floor((NodeNumber - 1) / this.size);
-		let y = (NodeNumber - 1) % this.size;
+		let x = Math.floor((NodeNumber) / this.size);
+		let y = (NodeNumber) % this.size;
 		let nodes = [];
 
 		if (y === (this.size - 1)) {
@@ -156,72 +156,83 @@ class Graph {
 	}
 
 	AStarAlgoritm() {
+		const bigNum=100000000;
 		let minDis = Array();//minimal distance from start to this point
-		let notUsedPoints = Array();//array of potencial and visited points
-		let potencial = Array();//array of point that border with visited points
-		let tmp;//tmp array
-		let tmpX;//как вариант убрать эту переменную нахуй т.к. js ведь не требователен к типам и можно тогда присваивать временные данные к tmp(я ебал формулировать ЭТО на иглише)
-		let minIndex = 0;//closest to end potencial point
+		let heuristicCost= Array();//minimal distance from this point to end
+		let coefficient= Array();//minDis + heuristicCost
+
 		let min;//minimal distance in way: start->current point->one of potencial points
-		let beginIndex = this.start - 1;//не ебу зачем это. может это просто убрать?(я ебал писать ЭТО на иглише)
+		let potencial = Array();//array of point that border with visited points
+		let minIndex = 0;//closest to end potencial point
+		let nodesAround;
+
+		console.log(this.start); 
+		console.log(this.finish); 
 		//setting start data
 		for (let i = 0; i < this.size * this.size; i++) {
-			minDis.push(100000000);
-			notUsedPoints.push(true);
+			minDis.push(bigNum);
 		}
-		//setting start point
-		minDis[beginIndex] = 0;
-		notUsedPoints[beginIndex] = false;
-		tmp = this.lookAround(this.start);
 
-		for (let i = 0; i < tmp.length; i++) {
-			potencial.push(tmp[i] - 1);
+		//setting start point
+		minDis[this.start] = 0;
+		heuristicCost[this.start]= this.approachToEnd(this.start);
+		nodesAround = this.lookAround(this.start);
+
+		for (let i = 0; i < nodesAround.length; i++) {
+			potencial.push(nodesAround[i]);
 			//TODO: create colors to "potential" point
-			minDis[tmp[i] - 1] = 1;//TODO:заменить 1 на вес ребра
+			minDis[nodesAround[i]] = 1;//TODO:заменить 1 на вес ребра
+			heuristicCost[nodesAround[i]]= 	this.approachToEnd(nodesAround[i]);
+			coefficient[nodesAround[i]] = minDis[nodesAround[i]]+heuristicCost[nodesAround[i]];
 		}
 
 		//algor
     let visited = Array();
 		while (potencial.length > 0) {
-			minIndex = 100000000;
+			minIndex = this.start;
 
-			min = 100000000;
+			min = bigNum;
 			for (let i = 0; i < potencial.length; i++) {
-				if ((minDis[potencial[i]] + this.approachToEnd(potencial[i])) < min) {
-					min = minDis[potencial[i]];
-					minIndex = potencial[i];
+				if (coefficient[potencial[i]] <= min) {
+					if ((coefficient[potencial[i]] === min)&(heuristicCost[potencial[i]]<heuristicCost[minIndex])){
+						min = coefficient[potencial[i]];
+						minIndex = potencial[i];
+					}
+					else{
+						min = coefficient[potencial[i]];
+						minIndex = potencial[i];
+					}
 				}
 			}
 
-			if (!notUsedPoints[this.finish-1]) {
+			if (minDis[this.finish]!==bigNum) {
 				console.log("finded"); 
-        break;
+				break;
 			}
 
-			if (minIndex !== 100000000) {
-				//TODO: убрать minIndex из массива potencial
-				let nodesAround = this.lookAround(minIndex + 1);
+			if (minIndex !== this.start) {
+				console.log(minIndex); 
+				nodesAround = this.lookAround(minIndex);
 				potencial.splice(potencial.indexOf(minIndex), 1);
 
 				for (let i = 0; i < nodesAround.length; i++) {
-					if (notUsedPoints[nodesAround[i] - 1]) {
-						potencial.push(nodesAround[i] - 1);
+					if (minDis[nodesAround[i]]===bigNum) {
+						potencial.push(nodesAround[i]);
 						//TODO: create colours to "potential" point
-						minDis[nodesAround[i] - 1] = minDis[minIndex - 1] + 1;//TODO:заменить 1 на вес ребра
-						notUsedPoints[nodesAround[i] - 1] = false;
+						minDis[nodesAround[i]] = minDis[minIndex] + 1;//TODO:заменить 1 на вес ребра
+						heuristicCost[nodesAround[i]]= 	this.approachToEnd(nodesAround[i]);
+						coefficient[nodesAround[i]] = minDis[nodesAround[i]]+heuristicCost[nodesAround[i]];
 					} else {
-						tmpX = min + 1;
-						if (tmpX < minDis[nodesAround[i] - 1]) {
-							minDis[nodesAround[i] - 1] = tmpX;
+						if (minDis[minIndex]<minDis[nodesAround[i]]){
+							minDis[nodesAround[i]]=minDis[minIndex]+1;//TODO:заменить 1 на вес ребра
+							coefficient[nodesAround[i]] = minDis[nodesAround[i]]+heuristicCost[nodesAround[i]];
 						}
 					}
 				}
-
+				visited.push(minIndex);
 			}
-      visited.push(minIndex + 1);
 		}
-
-    let i = 0;
+		let i = 0;
 		let timeid = setInterval(() => {
       let visitedNode = document.querySelector(`[id="${visited[i]}"]`);
       visitedNode.classList.add("visited");
@@ -231,9 +242,9 @@ class Graph {
       }
 
     }, 200);
-    console.log("ok")
+    console.log("ok");
 		//way output
-		if (notUsedPoints[this.finish-1]) {
+		if (minDis[this.finish]!=bigNum) {
 			console.log("ok");
 			return -1;
 		} //else {
@@ -253,7 +264,6 @@ class Graph {
 //			console.log(current);
 //		}
 	}
-
 	approachToEnd(nodeNumber) {
 		let {x, y} = this.coordinatesOfNode(nodeNumber);
 		let nodeX = x;
