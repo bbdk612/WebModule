@@ -4,6 +4,8 @@ for (let editButton of editButtons) {
 	editButton.disabled = true;
 }
 
+document.querySelectorAll(".edit__button:not(#stop-no-way-node)").disabled = true;
+
 let graphSizeInput = document.querySelector(".size__input");
 let buttonClicked = false;
 let graph;
@@ -49,7 +51,41 @@ button.addEventListener("click", () => {
 	}
 });
 
+let switchNode;
+
 let startEditNoWay = document.querySelector("#start-no-way-node");
 startEditNoWay.addEventListener("click", () => {
-	
+	document.querySelectorAll("button:not(#stop-no-way-node)").forEach((editButton) => {
+    editButton.disabled = true;
+  });
+  
+  document.querySelector("button#stop-no-way-node").disabled = false;
+  let nodes = document.querySelectorAll(".graph-node:not(.start):not(finish)");
+
+  nodes.forEach((node) => {
+    switchNode = () => {
+      if  (node.classList.contains("no-way-node")) {
+        node.classList.remove("no-way-node");
+        graph.noWayNodes.splice(graph.noWayNodes.indexOf(parseInt(node.id)), 1);
+      } else {
+        node.classList.add("no-way-node");
+        graph.noWayNodes.push(parseInt(node.id));
+      }
+    }
+    node.addEventListener("click", switchNode);
+  });  
+});
+
+let stopEditNoWay = document.querySelector("#stop-no-way-node");
+stopEditNoWay.addEventListener("click", () => {
+  document.querySelectorAll("button:not(#stop-no-way-node)").forEach((editButton) => {
+    editButton.disabled = false;
+  });
+
+  document.querySelector("button#stop-no-way-node").disabled = true;
+  let nodes = document.querySelectorAll(".graph-node:not(.start):not(finish)");
+
+  nodes.forEach((node) => {
+    node.removeEventListener("click", switchNode)
+  });
 });
