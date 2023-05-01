@@ -24,6 +24,14 @@
 	margin-bottom: 5px;
 }
 
+#letsGo {
+  width: 150px;
+  padding: 10px;
+	background-color: white;
+	border: solid black 1px;
+	border-radius: 7px;
+}
+
 .size__button {
 	padding: 10px;
 	background-color: white;
@@ -80,16 +88,20 @@
 	color: gray;
 }
 
-.visited {
+.graph-node.visited {
 	background-color: #ebcb8b;
 }
 
-.start {
+.graph-node.rightPath {
+  background-color: #007ffd;
+}
+
+.graph-node.start {
 	background-color: rgb(0, 255, 0);
 	color:green;
 }
 
-.finish {
+.graph-node.finish {
 	background-color: rgb(255, 0, 0);
 	color: red;
 }

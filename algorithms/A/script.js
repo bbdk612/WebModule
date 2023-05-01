@@ -149,3 +149,8 @@ editFinish.addEventListener("click", (event) => {
     node.addEventListener("click", changeFinish);
   }
 });
+
+let letsFuckingGo = document.querySelector("button#letsGo");
+letsFuckingGo.addEventListener("click", () => {
+  graph.AStarAlgoritm();
+});
