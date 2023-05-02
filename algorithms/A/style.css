@@ -88,6 +88,10 @@
 	color: gray;
 }
 
+.graph-node.potencial {
+	background-color: #d8dee9;
+}
+
 .graph-node.visited {
 	background-color: #ebcb8b;
 }

@@ -97,61 +97,61 @@ class Graph {
     return { x, y };
   }
 
-  lookAround(NodeNumber) {
-    let x = Math.floor((NodeNumber) / this.size);
-    let y = (NodeNumber) % this.size;
+  lookAround(NodeNumber, size, M, noWayNodes) {
+    let x = Math.floor((NodeNumber) / size);
+    let y = (NodeNumber) % size;
     let nodes = [];
 
-    if (y === (this.size - 1)) {
-      nodes.push(this.M[x][y - 1]);
+    if (y === (size - 1)) {
+      nodes.push(M[x][y - 1]);
     } else if (y === 0) {
-      nodes.push(this.M[x][y + 1]);
+      nodes.push(M[x][y + 1]);
     } else {
-      nodes.push(this.M[x][y - 1], this.M[x][y + 1]);
+      nodes.push(M[x][y - 1], M[x][y + 1]);
     }
 
     if (x === 0) {
-      nodes.push(this.M[x + 1][y]);
-    } else if (x === (this.size - 1)) {
-      nodes.push(this.M[x - 1][y]);
+      nodes.push(M[x + 1][y]);
+    } else if (x === (size - 1)) {
+      nodes.push(M[x - 1][y]);
     } else {
-      nodes.push(this.M[x - 1][y], this.M[x + 1][y]);
+      nodes.push(M[x - 1][y], M[x + 1][y]);
     }
 
     //TODO: refactor this shitcode!
     if ((x === 0) && (y === 0)) {
-      nodes.push(this.M[x + 1][y + 1]);
+      nodes.push(M[x + 1][y + 1]);
     } else if (x === 0) {
-      if (y !== this.size - 1) {
-        nodes.push(this.M[x + 1][y - 1], this.M[x + 1][y + 1]);
+      if (y !== size - 1) {
+        nodes.push(M[x + 1][y - 1], M[x + 1][y + 1]);
       } else {
-        nodes.push(this.M[x + 1][y - 1]);
+        nodes.push(M[x + 1][y - 1]);
       }
     } else if (y === 0) {
-      if (x !== this.size - 1) {
-        nodes.push(this.M[x - 1][y + 1], this.M[x + 1][y + 1]);
+      if (x !== size - 1) {
+        nodes.push(M[x - 1][y + 1], M[x + 1][y + 1]);
       } else {
-        nodes.push(this.M[x - 1][y + 1]);
+        nodes.push(M[x - 1][y + 1]);
       }
-    } else if ((x === (this.size - 1)) && (y === (this.size - 1))) {
-      nodes.push(this.M[x - 1][y - 1]);
-    } else if (x === (this.size - 1)) {
-      nodes.push(this.M[x - 1][y - 1], this.M[x - 1][y + 1]);
-    } else if (y === (this.size - 1)) {
-      nodes.push(this.M[x - 1][y - 1], this.M[x + 1][y - 1]);
+    } else if ((x === (size - 1)) && (y === (size - 1))) {
+      nodes.push(M[x - 1][y - 1]);
+    } else if (x === (size - 1)) {
+      nodes.push(M[x - 1][y - 1], M[x - 1][y + 1]);
+    } else if (y === (size - 1)) {
+      nodes.push(M[x - 1][y - 1], M[x + 1][y - 1]);
     } else {
       nodes.push(
-        this.M[x - 1][y - 1],
-        this.M[x - 1][y + 1],
-        this.M[x + 1][y - 1],
-        this.M[x + 1][y + 1],
+        M[x - 1][y - 1],
+        M[x - 1][y + 1],
+        M[x + 1][y - 1],
+        M[x + 1][y + 1],
       );
     }
 
     let nodesAround = [];
 
     for (let node of nodes) {
-      if (!this.noWayNodes.includes(node)) {
+      if (!noWayNodes.includes(node)) {
         nodesAround.push(node);
       }
     }
@@ -164,7 +164,8 @@ class Graph {
     let minDis = Array(); //minimal distance from start to this point
     let heuristicCost = Array(); //minimal distance from this point to end
     let coefficient = Array(); //minDis + heuristicCost
-
+    let noWayNodes = this.noWayNodes;
+    let potencialForDraw = Array();
     let min; //minimal distance in way: start->current point->one of potencial points
     let potencial = Array(); //array of point that border with visited points
     let minIndex = 0; //closest to end potencial point
@@ -180,68 +181,102 @@ class Graph {
     //setting start point
     minDis[this.start] = 0;
     heuristicCost[this.start] = this.approachToEnd(this.start);
-    nodesAround = this.lookAround(this.start);
-
-    for (let i = 0; i < nodesAround.length; i++) {
-      potencial.push(nodesAround[i]);
-      //TODO: create colors to "potential" point
-      minDis[nodesAround[i]] = 1; //TODO:заменить 1 на вес ребра
-      heuristicCost[nodesAround[i]] = this.approachToEnd(nodesAround[i]);
-      coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
-        heuristicCost[nodesAround[i]];
+    let Size = this.size;
+    let appToEnd = this.approachToEnd; 
+    let M = this.M;
+    nodesAround = this.lookAround(this.start, Size, M, noWayNodes);
+    function potencialGenNDraw() {
+      let i = 0;
+      return new Promise((drawed) => {
+        let timeID = setInterval(() => {
+          potencial.push(nodesAround[i]);
+          document.querySelector(`[id="${nodesAround[i]}"]`).classList.add("potencial");
+          potencialForDraw.push(nodesAround[i]);
+          //TODO: create colors to "potential" point
+          minDis[nodesAround[i]] = 1; //TODO:заменить 1 на вес ребра
+          heuristicCost[nodesAround[i]] = appToEnd(nodesAround[i], Size);
+          coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
+            heuristicCost[nodesAround[i]];
+          i++;
+          if (i == nodesAround.length) {
+            clearInterval(timeID);
+            drawed(true);
+          }
+        }, 50);
+      });
     }
 
+    let potencialDrawed = await potencialGenNDraw();
+    let lookA = this.lookAround;
     //algor
     let visited = Array();
     minIndex = this.start;
-    while (potencial.length > 0) {
-      min = bigNum;
-      for (let i = 0; i < potencial.length; i++) {
-        if (coefficient[potencial[i]] <= min) {
-          if (
-            (coefficient[potencial[i]] === min) &
-            (heuristicCost[potencial[i]] < heuristicCost[minIndex])
-          ) {
-            min = coefficient[potencial[i]];
-            minIndex = potencial[i];
-          } else {
-            min = coefficient[potencial[i]];
-            minIndex = potencial[i];
+    let s = this.start;
+    let f = this.finish;
+    function mainfuncdrawing() {
+      return new Promise(completed => {
+        let timeID = setInterval(() => {
+          if (!(potencial.length > 0)) {
+            clearInterval(timeID);
+            completed(true);
           }
-        }
-      }
-
-      if (minDis[this.finish] !== bigNum) {
-        console.log("finded");
-        break;
-      }
-
-      if (minIndex !== this.start) {
-        console.log(minIndex);
-        nodesAround = this.lookAround(minIndex);
-        potencial.splice(potencial.indexOf(minIndex), 1);
-
-        for (let i = 0; i < nodesAround.length; i++) {
-          if (minDis[nodesAround[i]] === bigNum) {
-            potencial.push(nodesAround[i]);
-            //TODO: create colours to "potential" point
-            minDis[nodesAround[i]] = minDis[minIndex] + 1; //TODO:заменить 1 на вес ребра
-            heuristicCost[nodesAround[i]] = this.approachToEnd(nodesAround[i]);
-            coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
-              heuristicCost[nodesAround[i]];
-          } else {
-            if (minDis[minIndex] < minDis[nodesAround[i]]) {
-              minDis[nodesAround[i]] = minDis[minIndex] + 1; //TODO:заменить 1 на вес ребра
-              coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
-                heuristicCost[nodesAround[i]];
+          min = bigNum;
+          for (let i = 0; i < potencial.length; i++) {
+            if (coefficient[potencial[i]] <= min) {
+              if (
+                (coefficient[potencial[i]] === min) &
+                (heuristicCost[potencial[i]] < heuristicCost[minIndex])
+              ) {
+                min = coefficient[potencial[i]];
+                minIndex = potencial[i];
+              } else {
+                min = coefficient[potencial[i]];
+                minIndex = potencial[i];
+              }
             }
           }
-        }
-        visited.push(minIndex);
-      }
+
+          if (minDis[f] !== bigNum) {
+            console.log("finded");
+            clearInterval(timeID);
+            completed(true);
+          }
+
+          if (minIndex !== s) {
+            console.log(minIndex);
+            nodesAround = lookA(minIndex, Size, M, noWayNodes);
+            potencial.splice(potencial.indexOf(minIndex), 1);
+
+            for (let i = 0; i < nodesAround.length; i++) {
+              if (minDis[nodesAround[i]] === bigNum) {
+                potencial.push(nodesAround[i]);
+                potencialForDraw.push(nodesAround[i]);
+                document.querySelector(`[id="${nodesAround[i]}"]`).classList.add("potencial");
+                //TODO: create colours to "potential" point
+                minDis[nodesAround[i]] = minDis[minIndex] + 1; //TODO:заменить 1 на вес ребра
+                heuristicCost[nodesAround[i]] = appToEnd(
+                  nodesAround[i], Size
+                );
+                coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
+                  heuristicCost[nodesAround[i]];
+              } else {
+                if (minDis[minIndex] < minDis[nodesAround[i]]) {
+                  minDis[nodesAround[i]] = minDis[minIndex] + 1; //TODO:заменить 1 на вес ребра
+                  coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
+                    heuristicCost[nodesAround[i]];
+                }
+              }
+            }
+            setTimeout(() => {
+              document.querySelector(`[id="${minIndex}"]`).classList.add("visited");
+            }, 25);
+          }
+        }, 50);
+      });
     }
-    
-    console.log("ok");
+
+    let mainDraw = await mainfuncdrawing();
+    console.log("ok", potencialDrawed, mainDraw);
     //way output
 
     let rightPath = Array();
@@ -253,7 +288,7 @@ class Graph {
       while (current !== this.start) {
         //TODO: create colouring on "current"
         console.log(current);
-        nodesAround = this.lookAround(current);
+        nodesAround = this.lookAround(current, Size, M, noWayNodes);
         let tmpX = minDis[current];
         for (let i = 0; i < nodesAround.length; i++) {
           if (minDis[nodesAround[i]] < tmpX) {
@@ -263,54 +298,60 @@ class Graph {
         }
         rightPath.push(current);
       }
-      // console.log(current);
-      
+      console.log(rightPath);
     }
-    function drawVisited() {
-      let i = 0;
-      return new Promise(drawed => {
-      let timeid = setInterval(() => {
-        let visitedNode = document.querySelector(`[id="${visited[i]}"]`);
-        visitedNode.classList.add("visited");
-        i++;
-        if (i == visited.length) {
-          clearInterval(timeid);
-          drawed(true);
-        }
-      }, 50);});
-    }
+
+    // function drawVisited() {
+    //   let i = 0;
+    //   return new Promise((drawed) => {
+    //     let timeid = setInterval(() => {
+    //       let visitedNode = document.querySelector(`[id="${visited[i]}"]`);
+    //       visitedNode.classList.add("visited");
+    //       i++;
+    //       if (i == visited.length) {
+    //         clearInterval(timeid);
+    //         drawed(true);
+    //       }
+    //     }, 50);
+    //   });
+    // }
 
     function drawRightPath() {
       let i = 0;
-      return new Promise(drawed => {
-      let timeid = setInterval(() => {
-        let rightNode = document.querySelector(`[id="${rightPath[i]}"]`);
-        rightNode.classList.add("rightPath");
-        i++;
-        if (i == rightPath.length) {
-          clearInterval(timeid);
-          drawed(true);
-        }
-      }, 50);
+      return new Promise((drawed) => {
+        let timeid = setInterval(() => {
+          let rightNode = document.querySelector(`[id="${rightPath[i]}"]`);
+          rightNode.classList.add("rightPath");
+          i++;
+          if (i == rightPath.length) {
+            clearInterval(timeid);
+            drawed(true);
+          }
+        }, 50);
       });
     }
-    
 
     async function draw() {
-      let drawedVisited = await drawVisited();
-      let drawedRightPath = await drawRightPath();
+    //  let drawedVisited = await drawVisited();
+     let drawedRightPath = await drawRightPath();
 
-      console.log(drawedVisited, drawedRightPath);
+     console.log( drawedRightPath);
     }
 
     draw();
   }
 
-  approachToEnd(nodeNumber) {
-    let { x, y } = this.coordinatesOfNode(nodeNumber);
+  approachToEnd(nodeNumber, size) {
+    let coorOfN = (nodeNumber) => {
+    let x = Math.floor((nodeNumber) / size);
+    let y = (nodeNumber) % size;
+
+    return { x, y };
+  }
+    let { x, y } = coorOfN(nodeNumber);
     let nodeX = x;
     let nodeY = y;
-    let finish = this.coordinatesOfNode(this.finish);
+    let finish = coorOfN(nodeNumber);
 
     return (Math.abs(nodeX - finish.x) + Math.abs(nodeY - finish.y));
   }
