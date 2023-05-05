@@ -17,7 +17,7 @@ for (let i = 0; i < size; i++) {
 console.log(matrix);
 
 let randInt = (max, min = 0) => {
-  return Math.floor(min + Math.random() * (max  - min));
+  return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
 const getCoordinates = (nodeNumber) => {
