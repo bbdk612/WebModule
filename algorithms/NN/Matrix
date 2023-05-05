@@ -350,7 +350,7 @@ class Graph {
 					//TODO: create colors to "potential" point
 					minDis[nodesAround[i]] = 1; //TODO:заменить 1 на вес ребра
 					heuristicCost[nodesAround[i]] = appToEnd(nodesAround[i], Size);
-					coefficient[nodesAround[i]] = 0 +
+					coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
 						heuristicCost[nodesAround[i]];
 					i++;
 					if (i == nodesAround.length) {
@@ -381,8 +381,10 @@ class Graph {
 						if (coefficient[potencial[i]] <= min) {
 							if (
 								(coefficient[potencial[i]] === min) &
-								(heuristicCost[potencial[i]] > heuristicCost[minIndex])
+								(heuristicCost[potencial[i]] < heuristicCost[minIndex])
 							) {
+								min = coefficient[potencial[i]];
+								minIndex = potencial[i];
 							} else {
 								min = coefficient[potencial[i]];
 								minIndex = potencial[i];
@@ -411,12 +413,12 @@ class Graph {
 								heuristicCost[nodesAround[i]] = appToEnd(
 									nodesAround[i], Size
 								);
-								coefficient[nodesAround[i]] = 0 +
+								coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
 									heuristicCost[nodesAround[i]];
 							} else {
 								if (minDis[minIndex] < minDis[nodesAround[i]]) {
 									minDis[nodesAround[i]] = minDis[minIndex] + 1; //TODO:заменить 1 на вес ребра
-									coefficient[nodesAround[i]] = 0 +
+									coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
 										heuristicCost[nodesAround[i]];
 								}
 							}
