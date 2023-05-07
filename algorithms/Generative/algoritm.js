@@ -3,20 +3,16 @@ generetiveAlgoritm(){
     let individualsList;
     let individualsGenes;
     let pointsList;
-    let individualsPathValue;
-    let individualsChanceToSurvive;
-    let individualSexList;
-    let childList;
     //setting start
     for (let i = 0; i<individualsList.length; i++){
-        individualsGenes[0]=pointsList[randint(pointsList.length-1,0)];
+        individualsGenes[i][0]=pointsList[randInt(pointsList.length-1,0)];
         let choiseList=pointsList.length-2;
         for (let j = 1; j<pointsList.length;j++,choiseList--){
-            //TODO: generate random point of randomPointList
-            individualsGenes[j] = randint (choiseList,0);
+            individualsGenes[i][j] = randInt (choiseList,0);
         }
     }
     //algoritm 
+    let individualsPathValue;
     for (let tmp = 0; tmp<numberOfIterations;tmp++){
         //calculation length of individual Path
         for (let i = 0; i<individualsList.length; i++){
@@ -26,28 +22,38 @@ generetiveAlgoritm(){
             individualsPathValue[i]= individualsPathValue[i]+approachToEnd(individualsGenes[0],individualsGenes[individualsGenes.length-1]);//approachToEnd from individualsGenes[0](start point of individual) to individualsGenes[individualsGenes.length-1](end point of individual)
         }
         //OPTIONAL: write path of best individual
-       
-        //calculation chance of individual "survive"
-        let sumOfReciprocals;
-        for (let i = 0;i < individualsList.length;i++){
-            sumOfReciprocals+=(1/individualsPathValue[i]);
-        }
-        for (let i = 0;i < individualsList.length;i++){
-            individualsChanceToSurvive[i]=((1/individualsPathValue[i])/sumOfReciprocals)
-        }
-        for(let i=0;i< Math.ceil(Math.sqrt(individualsList.length));i++){
-            let individualToSex;
-            for (let j = 1;j < individualsList.length;j++){
-                let individualToSexChance=0;
-                if (individualToSexChance<individualsChanceToSurvive[i]){
-                    individualToSex=j;
-                    individualToSexChance=individualsChanceToSurvive[i];
-                }
+        let bestIndividual;
+        let bestIndividualPathValue=10000000000;
+        for(let i=0;i<individualsList.length;i++){
+            if(individualsPathValue[i]<bestIndividualPathValue){
+                bestIndividual=i;
+                bestIndividualPathValue=individualsPathValue[i];
             }
-            individualsChanceToSurvive[individualToSex]=0;
-            individualSexList.push(individualToSex);
+       }
+        //calculation chance of individual "survive"
+    let individualsChanceToSurvive;
+    let individualSexList;
+    let sumOfReciprocals;
+    for (let i = 0;i < individualsList.length;i++){
+        sumOfReciprocals+=(1/individualsPathValue[i]);
+    }
+    for (let i = 0;i < individualsList.length;i++){
+        individualsChanceToSurvive[i]=((1/individualsPathValue[i])/sumOfReciprocals)
+    }
+    for(let i=0;i< Math.ceil(Math.sqrt(individualsList.length));i++){
+        let individualToSex;
+        for (let j = 1;j < individualsList.length;j++){
+            let individualToSexChance=0;
+            if (individualToSexChance<individualsChanceToSurvive[i]){
+                individualToSex=j;
+                individualToSexChance=individualsChanceToSurvive[i];
+            }
         }
+        individualsChanceToSurvive[individualToSex]=0;
+        individualSexList.push(individualToSex);
+    }
         //generate new individualList
+    let childList;
         for(let i = 0;i < individualSexList.length;i++){
             if (childList.length < individualsList.length){ 
                 for(let j = 0;j < individualSexList.length;j++){
@@ -87,5 +93,13 @@ generetiveAlgoritm(){
             }
         }
         individualsList=childList;
+    }
+    //create mutation on last individual
+    let randomMutation=randInt(individualsGenes.individualsList-1,0);
+    if(randomMutation===0){
+        individualsGenes[individualsGenes.length-1][randomMutation]=randInt(pointsList.length-1,0);
+    }
+    else{
+        individualsGenes[individualsGenes.length-1][randomMutation]=randInt(pointList.length-randomMutation,0);
     }
 }
