@@ -318,7 +318,7 @@ class Graph {
 
     function drawRightPath() {
       let i = 0;
-      return new Promise((drawed) => {
+      return new Promise(drawed => {
         let timeid = setInterval(() => {
           let rightNode = document.querySelector(`[id="${rightPath[i]}"]`);
           rightNode.classList.add("rightPath");

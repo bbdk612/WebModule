@@ -1,44 +1,50 @@
-let points = [];
-let ctx = document.querySelector("canvas").getContext("2d");
+const points = [];
+let k;
 
-function randInt(max, min) {
+const randInt = (max, min = 0) => {
     return Math.floor(min + Math.random() * (max + 1 - min));
-}
+};
+const ctx = document.querySelector("canvas").getContext("2d");
 
-function createPoints(canvas, event) {
+const canvas = document.querySelector("canvas");
+
+const createPoints = (canvas, event) => {
     const rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    let point = new Point(x, y);
-    point.draw(ctx);
+
+    let point = new Point(x , y)
     points.push(point);
+    point.draw();
 }
 
-function createClusters(canvas) {
-    let k = parseInt(document.querySelector("#clustersNumber").value);
-    let colors = [];
+canvas.addEventListener("click", (event) => {
+    createPoints(canvas, event);
+})
+
+const createClusters = () => {
+    const clusters = [];
+    let k = parseInt(document.querySelector("#k").value)
+    const colors = [];
+
     let i = 0;
     while (i < k) {
-        let color = `rgb(${randInt(255, 0)}, ${randInt(255, 0)}, ${randInt(255, 0)})`
+        let color = `rgb(${randInt(255)}, 
+        ${randInt(255)}, 
+        ${randInt(255)})`
         if (!colors.includes(color)) {
-            i++;
             colors.push(color);
+            i++;
         }
     }
-    let clusters = [];
     for (let i = 0; i < k; i++) {
         let cluster = new Cluster(colors[i]);
         clusters.push(cluster);
     }
 
-    Cluster.Start(k, clusters, points, ctx);
+    Cluster.Start(k, clusters, points);
+    // Cluster.ClearField(points);
 }
 
-const canvas = document.querySelector('canvas')
-canvas.addEventListener('click', function(e) {
-    createPoints(canvas, e)
-})
-
-const startButton = document.querySelector("#start");
-startButton.addEventListener("click", createClusters);
-
+const start = document.querySelector("#start");
+start.addEventListener("click", createClusters);
