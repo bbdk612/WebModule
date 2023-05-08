@@ -1,98 +1,92 @@
 generetiveAlgoritm(){
     let numberOfIterations;
-    let individualsList;
+    let numberOfIndividuals;
     let individualsGenes;
     let pointsList;
     //setting start
-    for (let i = 0; i<individualsList.length; i++){
+    for (let i = 0; i<numberOfIndividuals; i++){
         individualsGenes[i][0]=pointsList[randInt(pointsList.length-1,0)];
         let choiseList=pointsList.length-2;
-        for (let j = 1; j<pointsList.length;j++,choiseList--){
+        for (let j = 1; choiseList>=0;j++,choiseList--){
             individualsGenes[i][j] = randInt (choiseList,0);
         }
     }
     //algoritm 
-    let individualsPathValue;
     for (let tmp = 0; tmp<numberOfIterations;tmp++){
         //calculation length of individual Path
-        for (let i = 0; i<individualsList.length; i++){
-            for (let j = 0; j < individualsGenes.length-1;j++){
-                individualsPathValue[i]= individualsPathValue[i]+approachToEnd(individualsGenes[j],individualsGenes[j+1]);//approachToEnd from individualsGenes[j](begin) to individualsGenes[j+1](end)
+        let individualsPathValue;
+        for (let i = 0; i<numberOfIndividuals; i++){
+            let checkList=pointsList;
+            let individualPath;
+            individualPath[0]=individualsGenes[i][j];
+            checkList.splice(checkList.indexOf(individualsGenes[0]), 1);
+            for (let j=1;j<individualsGenes[i].length;j++){
+                individualPath[j]=checkList[individualsGenes[i][j]];
+                checkList.splice(checkList.indexOf(individualsGenes[i][j]), 1);
             }
-            individualsPathValue[i]= individualsPathValue[i]+approachToEnd(individualsGenes[0],individualsGenes[individualsGenes.length-1]);//approachToEnd from individualsGenes[0](start point of individual) to individualsGenes[individualsGenes.length-1](end point of individual)
+            for(let j=0;j<individualPath.length-1;j++){
+                individualsPathValue[i]+=approachToEnd(individualPath[j],individualPath[j+1]);
+            }
+            individualsPathValue[i]+=approachToEnd(individualPath[individualPath.length-1],individualPath[0]);
         }
-        //OPTIONAL: write path of best individual
+        //write path of best individual
         let bestIndividual;
         let bestIndividualPathValue=10000000000;
-        for(let i=0;i<individualsList.length;i++){
+        for(let i=0;i<numberOfIndividuals;i++){
             if(individualsPathValue[i]<bestIndividualPathValue){
                 bestIndividual=i;
                 bestIndividualPathValue=individualsPathValue[i];
             }
        }
         //calculation chance of individual "survive"
-    let individualsChanceToSurvive;
-    let individualSexList;
-    let sumOfReciprocals;
-    for (let i = 0;i < individualsList.length;i++){
-        sumOfReciprocals+=(1/individualsPathValue[i]);
-    }
-    for (let i = 0;i < individualsList.length;i++){
-        individualsChanceToSurvive[i]=((1/individualsPathValue[i])/sumOfReciprocals)
-    }
-    for(let i=0;i< Math.ceil(Math.sqrt(individualsList.length));i++){
-        let individualToSex;
-        for (let j = 1;j < individualsList.length;j++){
-            let individualToSexChance=0;
-            if (individualToSexChance<individualsChanceToSurvive[i]){
-                individualToSex=j;
-                individualToSexChance=individualsChanceToSurvive[i];
-            }
+        let individualsChanceToSurvive;
+        let sumOfReciprocals;
+        for (let i = 0;i < numberOfIndividuals;i++){
+            sumOfReciprocals+=(1/individualsPathValue[i]);
         }
-        individualsChanceToSurvive[individualToSex]=0;
-        individualSexList.push(individualToSex);
-    }
-        //generate new individualList
-    let childList;
-        for(let i = 0;i < individualSexList.length;i++){
-            if (childList.length < individualsList.length){ 
-                for(let j = 0;j < individualSexList.length;j++){
-                    let child;
-                    if (individualSexList[i]!== individualSexList[j]){
-                        let moneyFlip;
-                        moneyFlip=randomint(2,1);
-                        if (moneyFlip===1){
-                            let separationLine=Math.floor(individualsGenes[individualSexList[i]]/2)
-                            for(let k=0;k<separationLine;k++){
-                                child[k]=individualsGenes[individualSexList[j]][k];
-                            }
-                            for(let k=separationLine+1;k<individualsGenes[individualSexList[i]].length;k++){
-                                child[k]=individualsGenes[individualSexList[i]][k];
-                            }
-                        }
-                        else{
-                            let separationLine=Math.floor(individualsGenes[individualSexList[i]]/2)
-                            for(let k=0;k<separationLine;k++){
-                                child[k]=individualsGenes[individualSexList[i]][k];
-                            }
-                            for(let k=separationLine;k<individualsGenes[individualSexList[i]].length;k++){
-                                child[k]=individualsGenes[individualSexList[j]][k];
-                            }
-                        }
-                        if (childList.length<individualsList.length){
-                            childList.push(child);
-                        }
-                        else{
+        for (let i = 0;i < numberOfIndividuals;i++){
+            individualsChanceToSurvive[i]=((1/individualsPathValue[i])/sumOfReciprocals)
+        }
+        //generate new individualGenes
+        let childGenesList;
+            for(let i = 0;i < numberOfIndividuals;i++){
+                let individualFather;
+                let FathershipChance=Math.random();
+                let modifier=0;
+                for (let j=0;j<individualsList;j++){
+                    if (FathershipChance < individualsChanceToSurvive[j]+modifier){
+                        individualFather=j;
+                        break;
+                    }
+                    else{
+                        modifier+=individualsChanceToSurvive[j];
+                    }
+                }
+                let individualMother=individualFather;
+                while(individualMother=individualFather){
+                    let MothershipChance=Math.random();
+                    modifier=0;
+                    for (let j=0;j<individualsList;j++){
+                        if (MothershipChance < individualsChanceToSurvive[j]+modifier){
+                            individualMother=j;
                             break;
+                        }
+                        else{
+                            modifier+=individualsChanceToSurvive[j];
                         }
                     }
                 }
+                let childGenes;
+                let separationLine=Math.floor(individualsGenes[i].length/2);
+                for(let j=0;j<separationLine;j++){
+                    childGenes[j]=individualsGenes[individualFather][j];
+                }
+                for(let j=separationLine;j<individualsGenes[i].length;j++){
+                    childGenes[j]=individualsGenes[individualMother][j];
+                }
+                childGenesList.push(childGenes);
             }
-            else{
-                break;
-            }
-        }
-        individualsList=childList;
+            individualsGenes=childGenesList;
     }
     //create mutation on last individual
     let randomMutation=randInt(individualsGenes.individualsList-1,0);
@@ -100,6 +94,6 @@ generetiveAlgoritm(){
         individualsGenes[individualsGenes.length-1][randomMutation]=randInt(pointsList.length-1,0);
     }
     else{
-        individualsGenes[individualsGenes.length-1][randomMutation]=randInt(pointList.length-randomMutation,0);
+        individualsGenes[individualsGenes.length-1][randomMutation]=randInt(pointsList.length-randomMutation,0);
     }
 }
