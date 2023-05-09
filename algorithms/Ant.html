@@ -1,12 +1,60 @@
+<!--
+    ToDo:
+    1.1. Наладить организацию файлов. 
+    1.2. Написать бонусный вариант.
+    2. Создать стиль.
+ --> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ACO</title>
 </head>
 <body>
-    <!-- Муравьиный -->
+<main>
+    
+    <div>
+        <fieldset>
+            <div>
+                Подробнее <a href="https://ru.wikipedia.org/wiki/Муравьиный_алгоритм">здесь</a> <!-- Создана для удобства написания алгоритма. -->
+            </div>
+            <legend>Конфигурация</legend>
+            <div>
+               <table>
+                <tr>
+                    <td>Размер Колонии</td>
+                    <td><input type="number" id="SizeColony"></td>
+                </tr>
+                <tr>
+                    <td>&alpha;</td>
+                    <td><input type="number" id="Alpha"><label> * </label></td>
+                </tr>
+                <tr>
+                    <td>&beta;</td>
+                    <td><input type="number" id="Beta"><label> * </label></td>
+                </tr>
+                <tr>
+                    <td>&rho;</td>
+                    <td><input type="number" id="Rho"><label> * коэффициент испарения феромона </label></td>
+                </tr>
+                <td colspan="2">
+                    <button id="start">Start</button>
+                    <button id="clear">Clear</button>
+                </td>
+               </table>
+            </div>
+        </fieldset>
+    </div>
+    <canvas class="canvas" height="600" width="600"
+    style="background-color:#fbfbfb; border: 1px solid #000000; margin:10px;">
+    </canvas>
+</main>
+
+<script src=./Ant/canvas.js"></script>
+<script src=./Ant/AntAlgoritm.js"></script>
+
 </body>
 </html>
