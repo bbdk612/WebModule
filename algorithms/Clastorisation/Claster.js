@@ -1,4 +1,4 @@
-class Cluster {
+class KCluster {
   points;
   curX;
   curY;

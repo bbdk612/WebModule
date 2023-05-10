@@ -38,11 +38,11 @@ const createClusters = () => {
         }
     }
     for (let i = 0; i < k; i++) {
-        let cluster = new Cluster(colors[i]);
+        let cluster = new KCluster(colors[i]);
         clusters.push(cluster);
     }
 
-    Cluster.Start(k, clusters, points);
+    KCluster.Start(k, clusters, points);
     // Cluster.ClearField(points);
 }
 
