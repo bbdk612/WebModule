@@ -26,9 +26,11 @@ export function generativeAlgorithm(
             let checkList = pointsList;
             let individualPath = [];
             individualPath[0] = individualsGenes[i][j];
-            checkList.splice(checkList.indexOf(individualsGenes[0]), 1);
+            //TODO: rework indexOf
+            checkList.splice(checkList.indexOf(individualsGenes[i][0]), 1);
             for (let j = 1; j < individualsGenes[i].length; j++) {
                 individualPath[j] = checkList[individualsGenes[i][j]];
+                //TODO: rework indexOf
                 checkList.splice(checkList.indexOf(individualsGenes[i][j]), 1);
             }
             for (let j = 0; j < individualPath.length - 1; j++) {
@@ -50,6 +52,16 @@ export function generativeAlgorithm(
                 bestIndividual = i;
                 bestIndividualPathValue = individualsPathValue[i];
             }
+        }
+        let checkList = pointsList;
+        let bestWay = [];
+        bestWay[0] = individualsGenes[bestIndividual][j];
+        //TODO: rework indexOf
+        checkList.splice(checkList.indexOf(individualsGenes[bestIndividual][0]), 1);
+        for (let j = 1; j < individualsGenes[i].length; j++) {
+            bestWay[j] = checkList[individualsGenes[bestIndividual][j]];
+            //TODO: rework indexOf
+            checkList.splice(checkList.indexOf(individualsGenes[bestIndividual][j]), 1);
         }
         //calculation chance of individual "survive"
         let individualsChanceToSurvive;
