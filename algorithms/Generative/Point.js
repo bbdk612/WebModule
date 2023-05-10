@@ -1,23 +1,29 @@
 export class Point {
-  x;
-  y; 
-  color;
+    x;
+    y;
+    color;
 
-  set color(c) {
-    this.color = c;
-  }
+    constructor(x, y, color="black") {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
 
-  draw() {
-    const ctx = document.querySelector("canvas").getContext("2d");
+    set color(c) {
+        this.color = c;
+    }
 
-    ctx.beginPath()
-    ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
-  }
+    draw() {
+        const ctx = document.querySelector("canvas").getContext("2d");
 
-  static distanceBetweenPoints(point1, point2) {
-    return Math.sqrt( Math.pow( (point1.x - point2.x), 2 ) + Math.pow( (point1.y - point2.y), 2 ) );
-  }
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    static distanceBetweenPoints(point1, point2) {
+        return Math.sqrt(Math.pow((point1.x - point2.x), 2) + Math.pow((point1.y - point2.y), 2));
+    }
 }

@@ -1,16 +1,24 @@
-export function generetiveAlgoritm(
+import {Point} from "./Point.js";
+
+const randInt = (max, min=0) => {
+	return Math.floor(min + Math.random() * (max + 1 - min));
+}
+
+export function generativeAlgorithm(
     pointsList,
     numberOfIterations,
     numberOfIndividuals,
 ) {
-    let individualsGenes;
+    let individualsGenes = [];
     //setting start
     for (let i = 0; i < numberOfIndividuals; i++) {
-        individualsGenes[i][0] = pointsList[randInt(pointsList.length - 1, 0)];
+        let individualsGenesLine = [];
+        individualsGenesLine.push([randInt(pointsList.length - 1, 0)]);
         let choiseList = pointsList.length - 2;
         for (let j = 1; choiseList >= 0; j++, choiseList--) {
-            individualsGenes[i][j] = randInt(choiseList, 0);
+            individualsGenesLine[j].push(randInt(choiseList, 0));
         }
+        individualsGenes.push(individualsGenesLine);
     }
     //algorithm
     for (let tmp = 0; tmp < numberOfIterations; tmp++) {
@@ -18,7 +26,7 @@ export function generetiveAlgoritm(
         let individualsPathValue;
         for (let i = 0; i < numberOfIndividuals; i++) {
             let checkList = pointsList;
-            let individualPath;
+            let individualPath = [];
             individualPath[0] = individualsGenes[i][j];
             checkList.splice(checkList.indexOf(individualsGenes[0]), 1);
             for (let j = 1; j < individualsGenes[i].length; j++) {
