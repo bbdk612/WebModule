@@ -1,11 +1,10 @@
-import {Point} from "./Point.js";
 
-const randInt = (max, min=0) => {
-	return Math.floor(min + Math.random() * (max + 1 - min));
-}
+const randInt = (max, min = 0) => {
+  return Math.floor(min + Math.random() * (max + 1 - min));
+};
 
 export function generativeAlgorithm(
-    pointsList=Array(),
+    pointsList,
     numberOfIterations,
     numberOfIndividuals,
 ) {
@@ -23,7 +22,7 @@ export function generativeAlgorithm(
     //algorithm
     for (let tmp = 0; tmp < numberOfIterations; tmp++) {
         //calculation length of individual Path
-        let individualsPathValue=Array();
+        let individualsPathValue;
         for (let i = 0; i < numberOfIndividuals; i++) {
             let checkList = pointsList;
             let individualPath = [];
@@ -54,7 +53,7 @@ export function generativeAlgorithm(
             }
         }
         //calculation chance of individual "survive"
-        let individualsChanceToSurvive=Array();
+        let individualsChanceToSurvive;
         let sumOfReciprocals;
         for (let i = 0; i < numberOfIndividuals; i++) {
             sumOfReciprocals += 1 / individualsPathValue[i];
@@ -64,7 +63,7 @@ export function generativeAlgorithm(
                 sumOfReciprocals;
         }
         //generate new individualGenes
-        let childGenesList=Array();
+        let childGenesList;
         for (let i = 0; i < numberOfIndividuals; i++) {
             let individualFather;
             let FathershipChance = Math.random();
@@ -90,7 +89,7 @@ export function generativeAlgorithm(
                     }
                 }
             }
-            let childGenes=Array();
+            let childGenes;
             let separationLine = Math.floor(individualsGenes[i].length / 2);
             for (let j = 0; j < separationLine; j++) {
                 childGenes[j] = individualsGenes[individualFather][j];

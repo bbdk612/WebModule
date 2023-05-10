@@ -1,5 +1,3 @@
-import { Point } from "./Point.js";
-import { generativeAlgorithm } from "./algorithm.js";
 
 const startButton = document.querySelector("#start");
 startButton.disabled = true;
@@ -22,7 +20,9 @@ canvas.addEventListener("click", createPoints);
 
 
 function start() {
-  generativeAlgorithm(points,50, points.length);
+  let obj = generativeAlgorithm(points,50, points.length);
+  console.log(obj);
 }
+
 
 startButton.addEventListener("click", start);

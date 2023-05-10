@@ -1,4 +1,4 @@
-export class Point {
+class Point {
     x;
     y;
     color;
