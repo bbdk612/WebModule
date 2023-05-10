@@ -1,4 +1,4 @@
-generetiveAlgoritm(pointsList,numberOfIterations,numberOfIndividuals){
+function generetiveAlgoritm(pointsList,numberOfIterations,numberOfIndividuals) {
     let individualsGenes;
     //setting start
     for (let i = 0; i<numberOfIndividuals; i++){
