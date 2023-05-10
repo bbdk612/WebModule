@@ -13,9 +13,8 @@ export function generativeAlgorithm(
     for (let i = 0; i < numberOfIndividuals; i++) {
         let individualsGenesLine = [];
         individualsGenesLine.push([randInt(pointsList.length - 1, 0)]);
-        let choiseList = pointsList.length - 2;
-        for (let j = 1; choiseList >= 0; j++, choiseList--) {
-            individualsGenesLine[j].push(randInt(choiseList, 0));
+        for (let choiseList = pointsList.length - 2; choiseList > 0;choiseList--) {
+            individualsGenesLine.push(randInt(choiseList, 0));
         }
         individualsGenes.push(individualsGenesLine);
     }
