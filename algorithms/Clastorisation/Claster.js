@@ -85,8 +85,10 @@ class Cluster {
           Math.pow(clusters[0].curY - points[i].y, 2),
         ),
       );
+
       let minClIndex = 0;
       let cl = clusters[0];
+      
       for (let j = 1; j < k; j++) {
         let tmp = Math.round(
           Math.sqrt(
