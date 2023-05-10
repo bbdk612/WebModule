@@ -62,16 +62,7 @@ class KCluster {
   Clear() {
     this.points = Array();
   }
-  static ClearField(points) {
-    const canvas = document.querySelector("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let point of points) {
-      point.draw();
-    }
-    ctx.closePath();
-  }
+  
   static async Bind(k, clusters, points) {
     for (let i = 0; i < k; i++) {
       clusters[i].Clear();
@@ -104,17 +95,17 @@ class KCluster {
       }
       clusters[minClIndex].points.push(points[i]);
       points[i].color = clusters[minClIndex].color;
-      Cluster.ClearField(points);
+      Point.ClearField(points);
     }
 
     return clusters;
   }
 
   static Start(k, clusters, points) {
-    Cluster.InitCenter(k, clusters, points);
+    KCluster.InitCenter(k, clusters, points);
     while (true) {
       let check = 0;
-      Cluster.Bind(k, clusters, points);
+      KCluster.Bind(k, clusters, points);
       for (let i = 0; i < k; i++) {
         clusters[i].SetCenter();
       }
