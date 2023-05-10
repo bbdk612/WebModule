@@ -1,8 +1,5 @@
-generetiveAlgoritm(){
-    let numberOfIterations;
-    let numberOfIndividuals;
+generetiveAlgoritm(pointsList,numberOfIterations,numberOfIndividuals){
     let individualsGenes;
-    let pointsList;
     //setting start
     for (let i = 0; i<numberOfIndividuals; i++){
         individualsGenes[i][0]=pointsList[randInt(pointsList.length-1,0)];
