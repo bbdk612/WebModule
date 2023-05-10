@@ -5,7 +5,7 @@ const randInt = (max, min=0) => {
 }
 
 export function generativeAlgorithm(
-    pointsList,
+    pointsList=Array(),
     numberOfIterations,
     numberOfIndividuals,
 ) {
@@ -23,7 +23,7 @@ export function generativeAlgorithm(
     //algorithm
     for (let tmp = 0; tmp < numberOfIterations; tmp++) {
         //calculation length of individual Path
-        let individualsPathValue;
+        let individualsPathValue=Array();
         for (let i = 0; i < numberOfIndividuals; i++) {
             let checkList = pointsList;
             let individualPath = [];
@@ -54,7 +54,7 @@ export function generativeAlgorithm(
             }
         }
         //calculation chance of individual "survive"
-        let individualsChanceToSurvive;
+        let individualsChanceToSurvive=Array();
         let sumOfReciprocals;
         for (let i = 0; i < numberOfIndividuals; i++) {
             sumOfReciprocals += 1 / individualsPathValue[i];
@@ -64,7 +64,7 @@ export function generativeAlgorithm(
                 sumOfReciprocals;
         }
         //generate new individualGenes
-        let childGenesList;
+        let childGenesList=Array();
         for (let i = 0; i < numberOfIndividuals; i++) {
             let individualFather;
             let FathershipChance = Math.random();
@@ -90,7 +90,7 @@ export function generativeAlgorithm(
                     }
                 }
             }
-            let childGenes;
+            let childGenes=Array();
             let separationLine = Math.floor(individualsGenes[i].length / 2);
             for (let j = 0; j < separationLine; j++) {
                 childGenes[j] = individualsGenes[individualFather][j];
