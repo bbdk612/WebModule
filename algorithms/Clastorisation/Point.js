@@ -46,7 +46,7 @@ class Point {
     const ctx = canvas.getContext("2d");
     ctx.beginPath();
     // ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let point of points) {
+    for (let point in points) {
       point.draw();
     }
     ctx.closePath();

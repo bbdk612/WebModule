@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,17 +8,20 @@
     <link rel="stylesheet" href="./Clastorisation/style.css">
     <title>Алгоритм кластеризации</title>
 </head>
-<body>
-    <!--TODO: тут реализация алгоритма кластеризации -->
-    <canvas id="clastoristionField" width="500" height="500"></canvas>
-    <fieldset>
-        <legend>Введи кол-во кластеров</legend>
-        <input type="text" name="k" id="k">
-        <button id="start">Start</button>
-    </fieldset>
 
+<body>
+    <main>
+        
+        <canvas id="clastoristionField" width="500" height="500"></canvas>
+        <fieldset>
+            <legend>Введи кол-во кластеров</legend>
+            <input type="number" name="k" id="k">
+            <button id="start">Start</button>
+        </fieldset>
+    </main>
     <script src="./Clastorisation/Point.js"></script>
     <script src="./Clastorisation/Claster.js"></script>
     <script src="./Clastorisation/script.js"></script>
 </body>
+
 </html>

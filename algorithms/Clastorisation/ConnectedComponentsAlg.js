@@ -28,7 +28,7 @@ function conCompClusters(points, R) {
         clusters.push(cluster)
     }
 
-    for (let cluster of clusters) {
+    for (let cluster in clusters) {
         Point.ClearField(cluster.points)
     }
 }

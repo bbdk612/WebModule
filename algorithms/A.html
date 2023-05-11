@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,36 +9,40 @@
 	<link rel="stylesheet" href="./A/style.css">
 	<title>A*</title>
 </head>
+
 <body>
-<main>
-	<div class="inputs">
-		<fieldset class="size">
-			<legend class="size__legend">Введите размер графа</legend>
-			<div class="size__numberInput">
-				<input type="text" id="matrixName" name="matrixSize" placeholder="0" class="size__input">
-				<label for="matrixName" class="sizeInput__p">* ввести нужно n, где n*n -- размер графа</label>
-			</div>
-			<button type="button" class="size__button">Сгенерировать граф</button>
-		</fieldset>
-		<fieldset class="edit">
-			<legend class="edit__legend">Кнопки для редактирования графа</legend>
-			<div class="edit__no-way-nodes">
-				<button disabled class="edit__button" id="start-no-way-node">Start edit no-way nodes</button>
-				<button disabled class="edit__button" id="stop-no-way-node">Stop edit no-way nodes</button>
-			</div>
-			<button disabled class="edit__button" id="start">Edit start</button>
-			<button disabled class="edit__button" id="finish">Edit finish</button>
-		</fieldset>
+	<main>
+		<div class="home__button"><a href="/index.html" class1="home">Home</a></div>
+		<div class="inputs">
+			<fieldset class="size">
+				<legend class="size__legend">Введите размер графа</legend>
+				<div class="size__numberInput">
+					<input type="number" id="matrixName" name="matrixSize" placeholder="0" class="size__input">
+					<label for="matrixName" class="sizeInput__p">* ввести нужно n, где n*n -- размер графа</label>
+				</div>
+				<button type="button" class="size__button">Сгенерировать граф</button>
+			</fieldset>
+			<fieldset class="edit">
+				<legend class="edit__legend">Кнопки для редактирования графа</legend>
+				<div class="edit__no-way-nodes">
+					<button disabled class="edit__button" id="start-no-way-node">Start edit no-way nodes</button>
+					<button disabled class="edit__button" id="stop-no-way-node">Stop edit no-way nodes</button>
+				</div>
+				<button disabled class="edit__button" id="start">Edit start</button>
+				<button disabled class="edit__button" id="finish">Edit finish</button>
+			</fieldset>
 
-    <fieldset class="start">
-      <button class="start" id="letsGo">START</button>
-    </fieldset>
-	</div>
-	<div class="graph"></div>
-</main>
+			<fieldset class="start">
+				<button class="start" id="letsGo">START</button>
+			</fieldset>
+		</div>
+		<div class="graph"></div>
+	</main>
 
-<script src="./A/functionStack.js"></script>
-<script src="./A/Matrix.js"></script>
-<script src="./A/script.js"></script>
+
+	<script src="./A/functionStack.js"></script>
+	<script src="./A/Matrix.js"></script>
+	<script src="./A/script.js"></script>
 </body>
+
 </html>
