@@ -31,6 +31,7 @@ function generativeAlgorithm(
     //calculation length of individual Path
     let individualsPathValue = Array(numberOfIndividuals);
     for (let i = 0; i < numberOfIndividuals; i++) {
+      console.log(i);
       let checkList = pointsList;
       let individualPath = [];
       individualPath[0] = individualsGenes[i][0]; // TODO: What is j
@@ -45,13 +46,13 @@ function generativeAlgorithm(
       }
       for (let j = 0; j < individualPath.length - 1; j++) {
         individualsPathValue[i] += Point.distanceBetweenPoints(
-          individualPath[j],
-          individualPath[j + 1],
+          pointList[individualPath[j]],
+          pointList[individualPath[j + 1]],
         );
       }
       individualsPathValue[i] += Point.distanceBetweenPoints(
-        individualPath[individualPath.length - 1],
-        individualPath[0],
+        pointList[individualPath[individualPath.length - 1]],
+        pointList[individualPath[0]],
       );
     }
     //write path of best individual
@@ -65,7 +66,7 @@ function generativeAlgorithm(
     }
     let checkList = pointsList;
     let bestWay = [];
-    bestWay[0] = individualsGenes[bestIndividual][j];
+    bestWay[0] = individualsGenes[bestIndividual][0];
     //TODO: rework indexOf
     checkList.splice(findPointIndex(checkList, individualsGenes[bestIndividual][0]), 1);
     for (let j = 1; j < individualsGenes[i].length; j++) {
