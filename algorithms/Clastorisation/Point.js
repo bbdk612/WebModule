@@ -37,6 +37,10 @@ class Point {
     ctx.closePath();
   }
 
+  static distanceBetween(point1, point2) {
+    return Math.sqrt( Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2) )
+  }
+
   static ClearField(points) {
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext("2d");

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+    <canvas width="500" height="500"></canvas>
+    <button id="start"></button>
+
+    <script src="./ConectedCompotentsGraph.js"></script>
+    <script src="./Point.js"></script>
+    <script src="./ConnectedComponentsAlg.js"></script>
+
+    <script>
+        let points = []
+        function createPoints(event) {
+            const canvas = document.querySelector("canvas")
+            const rect = canvas.getBoundingClientRect()
+            const x = event.clientX - rect.left
+            const y = event.clientY - rect.top
+
+            let point = new Point(x, y)
+            point.draw()
+            points.push(point)
+        }
+
+        const canvas = document.querySelector("canvas")
+        canvas.addEventListener("click", createPoints)
+
+        const start = document.querySelector("#start")
+        start.addEventListener("click", () => {
+            console.log(points)
+            conCompClusters(points, 150)
+        })
+    </script>
+</body>
+</html>
