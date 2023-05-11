@@ -29,7 +29,7 @@ function generativeAlgorithm(
   //algorithm
   for (let tmp = 0; tmp < numberOfIterations; tmp++) {
     //calculation length of individual Path
-    let individualsPathValue;
+    let individualsPathValue = Array(numberOfIndividuals);
     for (let i = 0; i < numberOfIndividuals; i++) {
       let checkList = pointsList;
       let individualPath = [];
