@@ -2,7 +2,7 @@ const randInt = (max, min = 0) => {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
-const findPointIndex = (arrOfPoints, point) => {
+const findPointIndex = (arr, point) => {
   let index = 0;
   for (; index < arr.length; index++) {
     if (arr[index].x === point.x && arr[index].y === point.y) {
@@ -11,7 +11,7 @@ const findPointIndex = (arrOfPoints, point) => {
   }
 }
 
-export function generativeAlgorithm(
+function generativeAlgorithm(
   pointsList,
   numberOfIterations,
   numberOfIndividuals,
@@ -67,12 +67,12 @@ export function generativeAlgorithm(
     let bestWay = [];
     bestWay[0] = individualsGenes[bestIndividual][j];
     //TODO: rework indexOf
-    checkList.splice(checkList.indexOf(individualsGenes[bestIndividual][0]), 1);
+    checkList.splice(findPointIndex(checkList, individualsGenes[bestIndividual][0]), 1);
     for (let j = 1; j < individualsGenes[i].length; j++) {
       bestWay[j] = checkList[individualsGenes[bestIndividual][j]];
       //TODO: rework indexOf
       checkList.splice(
-        checkList.indexOf(individualsGenes[bestIndividual][j]),
+        findPointIndex(checkList, individualsGenes[bestIndividual][j]),
         1,
       );
     }
@@ -139,5 +139,5 @@ export function generativeAlgorithm(
     );
   }
 
-  
+  return bestWay;  
 }
