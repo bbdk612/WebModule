@@ -20,8 +20,8 @@ canvas.addEventListener("click", createPoints);
 
 
 function start() {
-  let obj = generativeAlgorithm(points,50, points.length);
-  console.log(obj);
+  let obj = generativeAlgorithm(points, 2, points.length);
+  console.log("dfsdfd", obj);
 }
 
 

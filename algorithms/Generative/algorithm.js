@@ -21,32 +21,41 @@ function generativeAlgorithm(
   for (let i = 0; i < numberOfIndividuals; i++) {
     let individualsGenesLine = [];
     individualsGenesLine.push(randInt(pointsList.length - 1, 0));
-    for (let choiseList = pointsList.length - 2; choiseList > 0; choiseList--) {
+    for (let choiseList = pointsList.length - 2; choiseList >= 0; choiseList--) {
       individualsGenesLine.push(randInt(choiseList, 0));
     }
     individualsGenes.push(individualsGenesLine);
+    console.log(individualsGenes[i])
   }
   //algorithm
   for (let tmp = 0; tmp < numberOfIterations; tmp++) {
     //calculation length of individual Path
-    let individualsPathValue = Array(numberOfIndividuals);
+    let individualsPathValue = [];
     for (let i = 0; i < numberOfIndividuals; i++) {
-      let checkList = pointsList;
+      individualsPathValue.push(0)
+    }
+    for (let i = 0; i < numberOfIndividuals; i++) {
+      let checkList = [...pointsList];
       let individualPath = [];
-      individualPath[0] = individualsGenes[i][0]; // TODO: What is j
+      individualPath[0] = checkList[individualsGenes[i][0]]; // TODO: What is j
       //TODO: rework indexOf
+      // console.log(pointsList.length)
+      // console.log(pointsList[individualsGenes[i][0]])
       let index = findPointIndex(checkList, pointsList[individualsGenes[i][0]]);
       checkList.splice(index, 1);
       for (let j = 1; j < individualsGenes[i].length; j++) {
+        console.log(checkList)
         individualPath[j] = checkList[individualsGenes[i][j]];
         //TODO: rework indexOf
         let index = findPointIndex(checkList, pointsList[individualsGenes[i][j]]);
         checkList.splice(index, 1);
       }
-      for (let j = 0; j < individualPath.length - 1; j++) {
+      console.log("IP: ", individualPath)
+
+      for (let j = 1; j < individualPath.length - 1; j++) {
         individualsPathValue[i] += Point.distanceBetweenPoints(
+          individualPath[j - 1],
           individualPath[j],
-          individualPath[j + 1],
         );
       }
       individualsPathValue[i] += Point.distanceBetweenPoints(
@@ -57,18 +66,20 @@ function generativeAlgorithm(
     //write path of best individual
     let bestIndividual;
     let bestIndividualPathValue = 10000000000;
+    console.log(individualsPathValue)
     for (let i = 0; i < numberOfIndividuals; i++) {
       if (individualsPathValue[i] < bestIndividualPathValue) {
         bestIndividual = i;
         bestIndividualPathValue = individualsPathValue[i];
       }
     }
-    let checkList = pointsList;
+    console.log(bestIndividual)
+    let checkList = [...pointsList];
     let bestWay = [];
-    bestWay[0] = individualsGenes[bestIndividual][j];
+    bestWay[0] = checkList[individualsGenes[bestIndividual][0]];
     //TODO: rework indexOf
-    checkList.splice(findPointIndex(checkList, individualsGenes[bestIndividual][0]), 1);
-    for (let j = 1; j < individualsGenes[i].length; j++) {
+    checkList.splice(findPointIndex(checkList, pointsList[individualsGenes[bestIndividual][0]]), 1);
+    for (let j = 1; j < individualsGenes[bestIndividual].length; j++) {
       bestWay[j] = checkList[individualsGenes[bestIndividual][j]];
       //TODO: rework indexOf
       checkList.splice(
@@ -77,14 +88,14 @@ function generativeAlgorithm(
       );
     }
     //calculation chance of individual "survive"
-    let individualsChanceToSurvive;
+    let individualsChanceToSurvive = [];
     let sumOfReciprocals;
     for (let i = 0; i < numberOfIndividuals; i++) {
       sumOfReciprocals += 1 / individualsPathValue[i];
     }
     for (let i = 0; i < numberOfIndividuals; i++) {
-      individualsChanceToSurvive[i] = (1 / individualsPathValue[i]) /
-        sumOfReciprocals;
+      individualsChanceToSurvive.push((1 / individualsPathValue[i]) /
+        sumOfReciprocals);
     }
     //generate new individualGenes
     let childGenesList;
@@ -92,7 +103,7 @@ function generativeAlgorithm(
       let individualFather;
       let FathershipChance = Math.random();
       let modifier = 0;
-      for (let j = 0; j < individualsList; j++) {
+      for (let j = 0; j < numberOfIndividuals; j++) {
         if (FathershipChance < individualsChanceToSurvive[j] + modifier) {
           individualFather = j;
           break;
@@ -101,10 +112,10 @@ function generativeAlgorithm(
         }
       }
       let individualMother = individualFather;
-      while (individualMother = individualFather) {
+      while (individualMother === individualFather) {
         let MothershipChance = Math.random();
         modifier = 0;
-        for (let j = 0; j < individualsList; j++) {
+        for (let j = 0; j < numberOfIndividuals; j++) {
           if (MothershipChance < individualsChanceToSurvive[j] + modifier) {
             individualMother = j;
             break;
