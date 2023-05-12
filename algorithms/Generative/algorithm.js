@@ -10,6 +10,14 @@ const findPointIndex = (arr, point) => {
     }
   }
 }
+const findPointbyIndex = (arr, index) => {
+  let i = 0;
+  for (; i < arr.length; i++) {
+    if (arr[i].index === index) {
+      return i;
+    }
+  }
+}
 
 function generativeAlgorithm(
   pointsList,
@@ -46,7 +54,7 @@ function generativeAlgorithm(
       checkList.splice(index, 1);
       for (let j = 1; j < individualsGenes[i].length; j++) {
         console.log(checkList)
-        individualPath[j] = checkList[individualsGenes[i][j]];
+        individualPath[j] = checkList[individualsGenes[i][j]].index;
         //TODO: rework indexOf
         let index = findPointIndex(checkList, pointsList[individualsGenes[i][j]]);
         checkList.splice(index, 1);
@@ -80,7 +88,7 @@ function generativeAlgorithm(
     //TODO: rework indexOf
     checkList.splice(findPointIndex(checkList, pointsList[individualsGenes[bestIndividual][0]]), 1);
     for (let j = 1; j < individualsGenes[bestIndividual].length; j++) {
-      bestWay[j] = checkList[individualsGenes[bestIndividual][j]];
+      bestWay[j] = checkList[individualsGenes[bestIndividual][j]].index;
       //TODO: rework indexOf
       checkList.splice(
         findPointIndex(checkList, individualsGenes[bestIndividual][j]),
