@@ -2,8 +2,9 @@ class Point {
     x;
     y;
     color;
+    index;
 
-    constructor(x, y, color="black") {
+    constructor(x, y, index, color="black") {
         this.x = x;
         this.y = y;
         this.color = color;
@@ -11,6 +12,12 @@ class Point {
 
     set color(c) {
         this.color = c;
+    }
+
+    set index(i) {}
+
+    get index() {
+        return this.index;
     }
 
     draw() {
