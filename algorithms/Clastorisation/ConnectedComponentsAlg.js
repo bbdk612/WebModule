@@ -3,7 +3,7 @@ const randInt = (max, min = 0) => {
 };
 
 function conCompClusters(points, R) {
-    unvisitedPoints = points
+    unvisitedPoints = [...points]
     let colors = []
     let clusters = []
     while (unvisitedPoints.length > 0) {
