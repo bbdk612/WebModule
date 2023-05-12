@@ -17,6 +17,7 @@ function generativeAlgorithm(
   numberOfIndividuals,
 ) {
   let individualsGenes = [];
+  let bestWay = [];
   //setting start
   for (let i = 0; i < numberOfIndividuals; i++) {
     let individualsGenesLine = [];
@@ -75,7 +76,6 @@ function generativeAlgorithm(
     }
     console.log(bestIndividual)
     let checkList = [...pointsList];
-    let bestWay = [];
     bestWay[0] = checkList[individualsGenes[bestIndividual][0]];
     //TODO: rework indexOf
     checkList.splice(findPointIndex(checkList, pointsList[individualsGenes[bestIndividual][0]]), 1);
@@ -87,9 +87,11 @@ function generativeAlgorithm(
         1,
       );
     }
+
+    console.log("IG: ", individualsGenes[bestIndividual])
     //calculation chance of individual "survive"
     let individualsChanceToSurvive = [];
-    let sumOfReciprocals;
+    let sumOfReciprocals = 0;
     for (let i = 0; i < numberOfIndividuals; i++) {
       sumOfReciprocals += 1 / individualsPathValue[i];
     }
@@ -98,7 +100,7 @@ function generativeAlgorithm(
         sumOfReciprocals);
     }
     //generate new individualGenes
-    let childGenesList;
+    let childGenesList = [];
     for (let i = 0; i < numberOfIndividuals; i++) {
       let individualFather;
       let FathershipChance = Math.random();
@@ -124,17 +126,17 @@ function generativeAlgorithm(
           }
         }
       }
-      let childGenes;
+      let childGenes = [];
       let separationLine = Math.floor(individualsGenes[i].length / 2);
       for (let j = 0; j < separationLine; j++) {
-        childGenes[j] = individualsGenes[individualFather][j];
+        childGenes.push(individualsGenes[individualFather][j]);
       }
       for (let j = separationLine; j < individualsGenes[i].length; j++) {
-        childGenes[j] = individualsGenes[individualMother][j];
+        childGenes.push(individualsGenes[individualMother][j]);
       }
       childGenesList.push(childGenes);
     }
-    individualsGenes = childGenesList;
+    individualsGenes = [...childGenesList];
   }
   //create mutation on last individual
   let randomMutation = randInt(individualsGenes.individualsList - 1, 0);
@@ -149,6 +151,6 @@ function generativeAlgorithm(
       0,
     );
   }
-
-  return bestWay;  
+  console.log(`dfjslkfjsdl ${bestWay}`)
+  return bestWay;
 }

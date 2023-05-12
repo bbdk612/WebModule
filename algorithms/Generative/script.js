@@ -5,15 +5,18 @@ startButton.disabled = true;
 const canvas = document.querySelector("canvas");
 
 let points = [];
+let counter = 0
 function createPoints(event) {
+
   const rect = canvas.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
   
-  let point = new Point(x, y);
+  let point = new Point(x, y, counter);
   points.push(point);
   point.draw();
   startButton.disabled = false;
+  counter++;
 }
 
 canvas.addEventListener("click", createPoints);
