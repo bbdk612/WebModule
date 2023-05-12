@@ -8,6 +8,7 @@ class Point {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.index = index;
     }
 
     set color(c) {

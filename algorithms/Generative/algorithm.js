@@ -2,6 +2,8 @@ const randInt = (max, min = 0) => {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
+
+
 const findPointIndex = (arr, point) => {
   let index = 0;
   for (; index < arr.length; index++) {
@@ -19,13 +21,10 @@ const findPointbyIndex = (arr, index) => {
   }
 }
 
-function generativeAlgorithm(
-  pointsList,
-  numberOfIterations,
-  numberOfIndividuals,
-) {
+const generativeAlgorithm = ( pointsList, numberOfIterations, numberOfIndividuals ) => {
   let individualsGenes = [];
   let bestWay = [];
+  let bestIndividualPathValue;
   //setting start
   for (let i = 0; i < numberOfIndividuals; i++) {
     let individualsGenesLine = [];
@@ -34,7 +33,6 @@ function generativeAlgorithm(
       individualsGenesLine.push(randInt(choiseList, 0));
     }
     individualsGenes.push(individualsGenesLine);
-    console.log(individualsGenes[i])
   }
   //algorithm
   for (let tmp = 0; tmp < numberOfIterations; tmp++) {
@@ -44,60 +42,50 @@ function generativeAlgorithm(
       individualsPathValue.push(0)
     }
     for (let i = 0; i < numberOfIndividuals; i++) {
-      let checkList = pointsList;
+      let checkList = [...pointsList];
       let individualPath = [];
-      individualPath[0] = checkList[individualsGenes[i][0]]; // TODO: What is j
-      //TODO: rework indexOf
-      // console.log(pointsList.length)
-      // console.log(pointsList[individualsGenes[i][0]])
-      let index = findPointIndex(checkList, pointsList[individualsGenes[i][0]]);
-      checkList.splice(index, 1);
+      individualPath.push(checkList[individualsGenes[i][0]].index); // TODO: What is j
+      // let index = findPointIndex(checkList, pointsList[individualsGenes[i][0]]);
+      checkList.splice(individualsGenes[i][0], 1);
       for (let j = 1; j < individualsGenes[i].length; j++) {
-        console.log(checkList)
-        individualPath[j] = checkList[individualsGenes[i][j]].index;
-        //TODO: rework indexOf
-        let index = findPointIndex(checkList, pointsList[individualsGenes[i][j]]);
-        checkList.splice(index, 1);
+        individualPath.push(checkList[individualsGenes[i][j]].index);
+        // let index = findPointIndex(checkList, pointsList[individualsGenes[i][j]]);
+        checkList.splice(individualsGenes[i][j], 1);
       }
-      console.log("IP: ", individualPath)
 
       for (let j = 1; j < individualPath.length - 1; j++) {
         individualsPathValue[i] += Point.distanceBetweenPoints(
-          individualPath[j],
-          individualPath[j + 1],
+          pointsList[individualPath[j - 1]],
+          pointsList[individualPath[j]],
         );
       }
       individualsPathValue[i] += Point.distanceBetweenPoints(
-        pointList[individualPath[individualPath.length - 1]],
-        pointList[individualPath[0]],
+        pointsList[individualPath[individualPath.length - 1]],
+        pointsList[individualPath[0]],
       );
     }
     //write path of best individual
     let bestIndividual;
-    let bestIndividualPathValue = 10000000000;
-    console.log(individualsPathValue)
+    bestIndividualPathValue = 10000000000;
     for (let i = 0; i < numberOfIndividuals; i++) {
       if (individualsPathValue[i] < bestIndividualPathValue) {
         bestIndividual = i;
         bestIndividualPathValue = individualsPathValue[i];
       }
     }
-    let checkList = pointsList;
-    let bestWay = [];
-    bestWay[0] = individualsGenes[bestIndividual][j];
-    //TODO: rework indexOf
-    checkList.splice(findPointIndex(checkList, pointsList[individualsGenes[bestIndividual][0]]), 1);
+    let checkList = [...pointsList];
+    bestWay = [];
+    bestWay.push(checkList[individualsGenes[bestIndividual][0]].index);
+    checkList.splice(individualsGenes[bestIndividual][0], 1);
     for (let j = 1; j < individualsGenes[bestIndividual].length; j++) {
-      bestWay[j] = checkList[individualsGenes[bestIndividual][j]].index;
-      //TODO: rework indexOf
+      bestWay.push(checkList[individualsGenes[bestIndividual][j]].index);
       checkList.splice(
-        findPointIndex(checkList, individualsGenes[bestIndividual][j]),
+        individualsGenes[bestIndividual][j],
         1,
       );
     }
-
-    console.log("IG: ", individualsGenes[bestIndividual])
-    //calculation chance of individual "survive"
+    
+        //calculation chance of individual "survive"
     let individualsChanceToSurvive = [];
     let sumOfReciprocals = 0;
     for (let i = 0; i < numberOfIndividuals; i++) {
@@ -159,6 +147,6 @@ function generativeAlgorithm(
       0,
     );
   }
-  console.log(`dfjslkfjsdl ${bestWay}`)
-  return bestWay;
+
+  return {path: bestWay, ofExile: bestIndividualPathValue};
 }
