@@ -1,9 +1,32 @@
+const NN = () =>{
+  const network = new Network(2, 1);
+  const data = [
+    [[0, 0], [0]],
+    [[0, 1], [1]],
+    [[1, 0], [1]],
+    [[1, 1], [0]],
+   ];
+   network.train(data).then(() => {
+    const testData = [
+      [0, 0],
+      [0, 1],
+      [1, 0],
+      [1, 1],
+    ];
+   
+    testData.forEach((input, index) => {
+      network.input = input;
+      console.log(`${input[0]} XOR ${input[1]} = ${network.prediction}`)
+    });
+   });
+
+}
 class Input {
     constructor(neuron, weight) {
       this.neuron = neuron;
       this.weight = weight;
     }
-   }
+  }
 
 class Neuron {
     constructor(layer, previousLayer) {
@@ -13,7 +36,7 @@ class Neuron {
         : [0];
     }
    
-    get $isFirstLayerNeuron() {
+    get firstLayerNeuron() {
       return !(this.inputs[0] instanceof Input)
     }
    
@@ -24,13 +47,13 @@ class Neuron {
     }
    
     get value() {
-      return this.$isFirstLayerNeuron
+      return this.firstLayerNeuron
         ? this.inputs[0]
         : this._layer._network.activationFunction(this.inputSum);
     }
    
     set input(val) {
-      if (!this.$isFirstLayerNeuron) {
+      if (!this.firstLayerNeuron) {
         return;
       }
    
@@ -38,7 +61,7 @@ class Neuron {
     }
    
     set error(error) {
-      if (this.$isFirstLayerNeuron) {
+      if (this.firstLayerNeuron) {
         return;
       }
    
@@ -49,7 +72,7 @@ class Neuron {
         input.neuron.error = input.weight * wDelta;
       });
     }
-   }
+  }
 
    class Layer {
     constructor(neuronsCount, previousLayer, network) {
@@ -79,26 +102,26 @@ class Neuron {
    
       val.forEach((v, i) => this.neurons[i].input = v);
     }
-   }
+  }
 
    class Network {
     static  sigmoid(x) {
       return 1 / (1 + Math.exp(-x));
     }
    
-    static sigmoidDerivative(x) {
+    static sigmoidDelta(x) {
       return Network.sigmoid(x) * (1 - Network.sigmoid(x));
     }
    
     constructor(inputSize, outputSize, hiddenLayersCount = 1, learningRate = 0.5) {
       this.activationFunction = Network.sigmoid;
-      this.derivativeFunction = Network.sigmoidDerivative;
+      this.derivativeFunction = Network.sigmoidDelta;
       this.learningRate = learningRate;
    
       this.layers = [new Layer(inputSize, null, this)];
    
       for (let i = 0; i < hiddenLayersCount; i++) {
-        const layerSize = Math.min(inputSize * 2 - 1, Math.ceil((inputSize * 2 / 3) + outputSize));
+        const layerSize = 25;
         this.layers.push(new Layer(layerSize, this.layers[this.layers.length - 1], this));
       }
    
@@ -128,7 +151,7 @@ class Neuron {
       });
     }
    
-    train(dataSet, epochs = 100000) {
+    train(dataSet, epochs = 5000) {
       return new Promise(resolve => {
         for (let i = 0; i < epochs; i++) {
           this.trainOnce(dataSet);
