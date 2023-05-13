@@ -1,7 +1,3 @@
-const randInt = (max, min = 0) => {
-	return Math.floor(min + Math.random() * (max + 1 - min));
-};
-
 function conCompClusters(points, R) {
     unvisitedPoints = [...points]
     let colors = []
@@ -10,6 +6,7 @@ function conCompClusters(points, R) {
         console.log(unvisitedPoints)
         let GrCenterIndex = randInt(unvisitedPoints.length - 1)
         let GraphCenter = unvisitedPoints[GrCenterIndex]
+        
         unvisitedPoints.splice(GrCenterIndex, 1) 
         let color
         do {
@@ -28,7 +25,5 @@ function conCompClusters(points, R) {
         clusters.push(cluster)
     }
 
-    for (let cluster in clusters) {
-        Point.ClearField(cluster.points)
-    }
+    Point.ClearField(points)
 }

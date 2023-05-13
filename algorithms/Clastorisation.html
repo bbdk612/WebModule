@@ -11,16 +11,29 @@
 
 <body>
     <main>
-        
+        <div class="chooseType">
+            <button class="chooseKMeans">K-средние</button>
+            <button class="chooseCC">Связные компоненты</button>
+        </div>
+        <div class="inputs">
+            <fieldset class="k-means">
+                <legend>Введи кол-во кластеров</legend>
+                <input type="number" name="k" id="k">
+                <button id="startKMeans">Start</button>
+            </fieldset>
+            <fieldset class="connectedComponents">
+                <legend>Введи R</legend>
+                <input type="number" name="R" id="R">
+                <button id="startCC">START</button>
+            </fieldset>
+        </div>
         <canvas id="clastoristionField" width="500" height="500"></canvas>
-        <fieldset>
-            <legend>Введи кол-во кластеров</legend>
-            <input type="number" name="k" id="k">
-            <button id="start">Start</button>
-        </fieldset>
+
     </main>
     <script src="./Clastorisation/Point.js"></script>
     <script src="./Clastorisation/Claster.js"></script>
+    <script src="./Clastorisation/ConectedCompotentsGraph.js"></script>
+    <script src="./Clastorisation/ConnectedComponentsAlg.js"></script>
     <script src="./Clastorisation/script.js"></script>
 </body>
 

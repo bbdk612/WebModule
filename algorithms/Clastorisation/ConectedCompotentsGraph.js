@@ -35,6 +35,7 @@ class Graph {
     this.center = center
     this.color = color
     this.points = []
+    this.points.push(center)
     center.color = color
   }
 }
