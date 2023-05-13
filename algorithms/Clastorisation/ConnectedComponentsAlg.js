@@ -1,4 +1,5 @@
 function conCompClusters(points, R) {
+    console.log(R)
     unvisitedPoints = [...points]
     let colors = []
     let clusters = []
@@ -6,7 +7,7 @@ function conCompClusters(points, R) {
         console.log(unvisitedPoints)
         let GrCenterIndex = randInt(unvisitedPoints.length - 1)
         let GraphCenter = unvisitedPoints[GrCenterIndex]
-        
+        console.log(GraphCenter)
         unvisitedPoints.splice(GrCenterIndex, 1) 
         let color
         do {
@@ -15,10 +16,16 @@ function conCompClusters(points, R) {
 
         colors.push(color)
         let cluster = new Graph(GraphCenter, color)
-        for (let i = 0; i < unvisitedPoints.length; i++) {
-            if (Point.distanceBetween(unvisitedPoints[i], GraphCenter) <= R) {
-                cluster.addPoint(unvisitedPoints[i])
-                unvisitedPoints.splice(i, 1)
+        let i = 0;
+        while (unvisitedPoints.length > 0 && i < unvisitedPoints.length) {
+            console.log(unvisitedPoints.length)
+            console.log(Point.distanceBetween(unvisitedPoints[unvisitedPoints.length - 1], GraphCenter))
+            if (Point.distanceBetween(unvisitedPoints[unvisitedPoints.length - 1], GraphCenter) <= R) {
+                cluster.addPoint(unvisitedPoints[unvisitedPoints.length - 1])
+                unvisitedPoints.pop()
+                i = 0
+            } else {
+                i++
             }
         }
 

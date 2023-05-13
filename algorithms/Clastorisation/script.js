@@ -23,7 +23,7 @@ const chooseType = (event) => {
         case "chooseKMeans":
             enableChooseButtons()
             event.target.disabled = true
-            startKMeans = true
+            startKMeans.disabled = true
             hideFields()
             document.querySelector("fieldset.k-means").style.display = "flex"
             break
