@@ -71,7 +71,14 @@ function HierarchyClusters(
     }
     newClusters.push(cluster_W);
     //creation of newClustersDistance
-    let newDistanceBetweenClusters = [...distanceBetweenClusters];
+    let newDistanceBetweenClusters = [];
+    for (let i=0;i<distanceBetweenClusters.length;i++){
+        let TMP_Cluster = []
+        for(let j = 0; j<distanceBetweenClusters.length;j++){
+            TMP_Cluster.push(distanceBetweenClusters[i][j])
+        }
+        newDistanceBetweenClusters.push(TMP_Cluster)
+    }
     //delete old clusters data
     for (let i=0; i<newDistanceBetweenClusters.length;i++){
         newDistanceBetweenClusters[i].splice(cluster_V,1)
@@ -83,25 +90,28 @@ function HierarchyClusters(
     newDistanceBetweenClusters.splice(cluster_U,1)
     //add new data
     let newCluster_Dis = []
-    for(let i=0;i<newDistanceBetweenClusters[0].length;i++){
-        let distance_US = distanceBetweenClusters[cluster_U][i];
-        let distance_VS = distanceBetweenClusters[cluster_V][i];
-        let distance_UV = distanceBetweenClusters[cluster_U][cluster_V];
-        console.log(distanceBetweenClusters[cluster_U][cluster_V])
-        console.log(cluster_U,cluster_V)
-        console.log(lanceWilliams(alpha_U,alpha_V,beta,gamma,distance_US,distance_VS,distance_UV,))
-        newCluster_Dis.push(lanceWilliams(alpha_U,alpha_V,beta,gamma,distance_US,distance_VS,distance_UV,))
+    for(let i=0;i<distanceBetweenClusters[0].length;i++){
+        if(!(i === cluster_U||i===cluster_V)){
+            let distance_US = distanceBetweenClusters[cluster_U][i];
+            let distance_VS = distanceBetweenClusters[cluster_V][i];
+            let distance_UV = distanceBetweenClusters[cluster_U][cluster_V];
+            newCluster_Dis.push(lanceWilliams(alpha_U,alpha_V,beta,gamma,distance_US,distance_VS,distance_UV,))
+        }
     }
     newDistanceBetweenClusters.push(newCluster_Dis)
-    for(let i = 0;i< newDistanceBetweenClusters.length;i++){
-        let distance_US = distanceBetweenClusters[cluster_U][i];
-        let distance_VS = distanceBetweenClusters[cluster_V][i];
-        let distance_UV = distanceBetweenClusters[cluster_U][cluster_V];
-        newDistanceBetweenClusters[i].push(lanceWilliams(alpha_U,alpha_V,beta,gamma,distance_US,distance_VS,distance_UV,))
+    let cou = 0;
+    for(let i = 0;i< distanceBetweenClusters.length;i++){
+        if(!(i === cluster_U||i===cluster_V)){
+            let distance_US = distanceBetweenClusters[cluster_U][i];
+            let distance_VS = distanceBetweenClusters[cluster_V][i];
+            let distance_UV = distanceBetweenClusters[cluster_U][cluster_V];
+            newDistanceBetweenClusters[cou].push(lanceWilliams(alpha_U,alpha_V,beta,gamma,distance_US,distance_VS,distance_UV,))
+            cou++
+        }
     }
     //clusters = newClusters
     distanceBetweenClusters = [...newDistanceBetweenClusters];
-    console.log(distanceBetweenClusters)
+    console.log("distanceBetweenClusters",distanceBetweenClusters)
     clusters = [...newClusters];
   }
   console.log(clusters);
