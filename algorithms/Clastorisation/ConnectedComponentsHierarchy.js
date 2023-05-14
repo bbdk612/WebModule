@@ -61,5 +61,5 @@ function HierarchyClusters(points, alpha_U, alpha_V, beta, gamma, numberOfCluste
         distanceBetweenClusters = [...newDistanceBetweenClusters]
         clusters = [...newClusters]
     }
-        console.log(clusters)
+
 }
