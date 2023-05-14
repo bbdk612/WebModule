@@ -1,13 +1,18 @@
-.inputs {
-	margin: 10px;
-	display:flex;
-
+.container {
+	flex-direction: column;
+	align-items: center;
 }
 
+.settings {
+	display: flex;
+	justify-content: center;
+	flex-wrap: auto-wrap;
+}
 .size {
 	padding: 10px;
 	display:flex;
 	flex-direction: column;
+	align-items: center;
 }
 
 .size__legend {
@@ -52,25 +57,30 @@
 	display:flex;
 }
 
-.edit__button {
+/* .edit__button {
 	background-color: white;
 	border: solid black 1px;
 	border-radius: 10px;
 	padding: 10px;
 	margin: 5px;
-}
+} */
 
 .graph {
-	max-width:5000px;
+	aspect-ratio: 1 / 1;
+	width: 100%;
+	max-width:800px;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .graph-line {
 	display: flex;
 	flex-direction: row;
-	justify-content: start;
+	justify-content: center;
 	align-content: center;
+	width: 100%;
 }
 
 .graph-node {
@@ -81,6 +91,13 @@
 	padding: 5px;
 	border: solid black 1px;
 	color: white;
+}
+
+
+.size__numberInput {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .no-way-node {
@@ -109,4 +126,3 @@
 	background-color: rgb(255, 0, 0);
 	color: red;
 }
-

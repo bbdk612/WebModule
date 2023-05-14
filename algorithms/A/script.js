@@ -10,14 +10,20 @@ document.querySelectorAll(".edit__button:not(#stop-no-way-node)").disabled =
 	true;
 
 let graphSizeInput = document.querySelector(".size__input");
+
+graphSizeInput.value = "0"
+
 let buttonClicked = false;
 let graph;
 const button = document.querySelector(".size__button");
-
+button.disabled = true
 let matrixSize;
 
+
+
 graphSizeInput.addEventListener("change", () => {
-	button.disabled = parseInt(graphSizeInput.value) > 100;
+	console.log(parseInt(graphSizeInput.value))
+	button.disabled = (parseInt(graphSizeInput.value) > 100) || (parseInt(graphSizeInput.value) <= 0);
 });
 
 button.addEventListener("click", () => {
