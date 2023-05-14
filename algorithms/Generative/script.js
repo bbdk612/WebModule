@@ -1,8 +1,14 @@
 
+
+
 const startButton = document.querySelector("button.start");
 startButton.disabled = true;
 
 const canvas = document.querySelector("canvas");
+const container = document.querySelector(".container")
+
+canvas.width = container.clientWidth - 2;
+canvas.height = container.clientWidth - 2;
 
 let points = [];
 let counter = 0;
@@ -27,7 +33,6 @@ const start = () => {
   let numOfIters = parseInt(document.querySelector("input#numberOfIterations").value);
   let numberOfIndividuals = parseInt(document.querySelector("input#numberOfIndividuals").value)
   let obj = generativeAlgorithm(points, numOfIters, numberOfIndividuals);
-  // console.log("dfsdfd", numbe);
   const pointNumbers = obj.path
   const lengthOfWeight = obj.ofExile
   let i = 1;
@@ -55,8 +60,9 @@ startButton.addEventListener("click", start);
 const clearFieldButton = document.querySelector("button.clearField")
 const clearField = () => {
   const ctx = document.querySelector("canvas").getContext("2d")
+  counter = 0
   ctx.beginPath()
-  ctx.clearRect(0, 0, 500, 500)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.closePath()
   points = new Array()
 }
@@ -68,7 +74,7 @@ const clearLines = (points) => {
   const ctx = document.querySelector("canvas").getContext("2d")
   startButton.disabled = false
   ctx.beginPath()
-  ctx.clearRect(0, 0, 500, 500)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
   for (let point of points){
     point.draw()
   }
