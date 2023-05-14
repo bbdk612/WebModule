@@ -433,13 +433,13 @@ class Graph {
 
 		let mainDraw = await mainfuncdrawing();
 		if (!mainDraw) {
-			
 		}
 		//way output
 
 		let rightPath = Array();
 		if (minDis[this.finish] == bigNum) {
 			console.log("ok");
+			document.querySelector(".notFoundDialog").style.display = "block"
 			return -1;
 		} else {
 			let current = this.finish;
