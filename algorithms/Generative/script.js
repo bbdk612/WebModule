@@ -25,7 +25,7 @@ canvas.addEventListener("click", createPoints);
 const start = () => {
   startButton.disabled = true
   let numOfIters = parseInt(document.querySelector("input#numberOfIterations").value);
-  let numberOfIndividuals = parseInt(document.querySelector("input#numberOfIndividuals"))
+  let numberOfIndividuals = parseInt(document.querySelector("input#numberOfIndividuals").value)
   let obj = generativeAlgorithm(points, numOfIters, numberOfIndividuals);
   // console.log("dfsdfd", numbe);
   const pointNumbers = obj.path
