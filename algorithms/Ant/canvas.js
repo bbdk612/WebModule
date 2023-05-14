@@ -1,10 +1,13 @@
-console.log("open canvas!")
 
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 
+const container = document.querySelector(".container");
+canvas.width = container.clientWidth - 2;
+canvas.height = container.clientWidth - 2;
+
 let vertexes = [];
-let size = 600;
+let size = container.width;
 
 canvas.addEventListener('click', mouseClick);
 document.getElementById("clear").onclick = Clear;

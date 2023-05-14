@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="./Ant/style.css">
     <title>ACO</title>
 </head>
 
 <body>
     <header>
-		<div class="containerHeader">
-			<a class="homeButton" href="/index.html"> <img src="/assets/home.svg" alt=""> </a>
-		</div>
-	</header>
-    
+        <div class="containerHeader">
+            <a class="homeButton" href="/index.html"> <img src="/assets/home.svg" alt=""> </a>
+        </div>
+    </header>
+
     <main>
 
-        <div>
+        <div class="container">
             <fieldset>
-                <legend>Конфигурация</legend>
                 <div>
                     <table>
                         <tr>
@@ -40,16 +40,18 @@
                             <td><input type="number" id="Rho"><label> * коэффициент испарения феромона </label></td>
                         </tr>
                         <td colspan="2">
-                            <button id="start">Start</button>
-                            <button id="clear">Clear</button>
+                            <button id="start" class="button">Start</button>
                         </td>
                     </table>
                 </div>
             </fieldset>
+            <div class="workfield">
+                <canvas class="canvas" height="600" width="600">
+                </canvas>
+                <button class="button" id="clear">Clear</button>
+            </div>
         </div>
-        <canvas class="canvas" height="600" width="600"
-            style="background-color:#fbfbfb; border: 1px solid #000000; margin:10px;">
-        </canvas>
+
     </main>
 
     <script src="./Ant/canvas.js"></script>
