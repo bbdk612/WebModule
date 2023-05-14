@@ -7,7 +7,7 @@ class Point {
   constructor(x, y, index) {
     this.x = x;
     this.y = y;
-    this.color = "black";ф
+    this.color = "black";
     this.index = index;
   }
 
