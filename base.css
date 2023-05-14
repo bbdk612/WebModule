@@ -20,6 +20,11 @@ header {
 	justify-content: center;
 }
 
+.homeButton {
+	padding-top: 5px;
+	padding-left: 5px;
+}
+
 main {
 	width: 100%;
 	display: flex;
@@ -41,7 +46,7 @@ main {
 	flex-direction: row;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (min-width: 800px) {
 
 	.container {
 		width: 100%;
@@ -67,14 +72,14 @@ main {
 }
 
 fieldset {
-	width: 100%;
+	/* width: 100%; */
 	background-color: #e7e7e7;
 	border: none;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	/* padding: 10px; */
+	padding: 10px;
 }
 
 legend {
@@ -104,4 +109,6 @@ input[type=number] {
 	margin-top: 10px;
 	flex-direction: column;
 	justify-content: center;
+	width: 100%;
+	background-color: #e7e7e7;
 }

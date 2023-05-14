@@ -5,9 +5,17 @@
 
 .settings {
 	display: flex;
-	justify-content: center;
-	flex-wrap: auto-wrap;
+	justify-content: space-evenly;
+	width: 100%;
+	flex-wrap: wrap;
 }
+
+.startField {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
 .size {
 	padding: 10px;
 	display:flex;
@@ -35,6 +43,28 @@
 	background-color: white;
 	border: solid black 1px;
 	border-radius: 7px;
+}
+
+.notFoundDialog {
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: none;
+}
+
+.centerContent {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.content {
+	z-index: 11111;
+	background-color: #fff;
+	padding: 30px;
 }
 
 .size__button {
@@ -68,7 +98,6 @@
 .graph {
 	aspect-ratio: 1 / 1;
 	width: 100%;
-	max-width:800px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -125,4 +154,9 @@
 .graph-node.finish {
 	background-color: rgb(255, 0, 0);
 	color: red;
+}
+
+fieldset.start {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }

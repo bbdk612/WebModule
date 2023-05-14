@@ -11,6 +11,14 @@
 </head>
 
 <body>
+	<div class="notFoundDialog">
+		<div class="centerContent">
+			<div class="content">
+				<h2>Упс, я нихуя не нашел</h2>
+				<p>Попробуйте отредактировать карту</p>
+			</div>
+		</div>
+	</div>
 	<header>
 		<div class="containerHeader">
 			<a class="homeButton" href="/index.html"> <img src="/assets/home.svg" alt=""> </a>
@@ -23,12 +31,15 @@
 					<fieldset class="size">
 						<div class="size__numberInput">
 							<label for="matrixSize">Размер карты</label>
-							<input type="number" id="matrixSize" name="matrixSize" placeholder="0" value="0" class="size__input">
+							<input type="number" id="matrixSize" name="matrixSize" placeholder="0" value="0"
+								class="size__input">
 
 						</div>
+						<button class="button clear__field">Очистить карту</button>
 						<button type="button" class="button size__button">Сгенерировать карту</button>
 					</fieldset>
 					<fieldset class="edit">
+						<p>Редактирование карты</p>
 						<div class="edit__no-way-nodes">
 							<button disabled class="button edit__button" id="start-no-way-node">Изменить стенки</button>
 							<button disabled class="button edit__button" id="stop-no-way-node">Стоп</button>
@@ -37,11 +48,13 @@
 						<button disabled class="button edit__button" id="finish">Изменить финиш</button>
 					</fieldset>
 				</div>
-				<fieldset class="start">
-					<ul role="none">
-						<button class="button start" id="letsGo">START</button>
-					</ul>
-				</fieldset>
+				<div class="startField">
+					<fieldset class="start">
+						<ul role="none">
+							<button class="button start" id="letsGo">START</button>
+						</ul>
+					</fieldset>
+				</div>
 			</div>
 			<div class="graph"></div>
 		</div>

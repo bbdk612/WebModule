@@ -27,6 +27,7 @@ graphSizeInput.addEventListener("change", () => {
 });
 
 button.addEventListener("click", () => {
+	document.querySelector(".graph").innerHTML = ""
 	matrixSize = parseInt(document.querySelector(".size__input").value);
 	buttonClicked = true;
 	//	console.log(matrixSize);
@@ -159,3 +160,10 @@ let letsFuckingGo = document.querySelector("button#letsGo");
 letsFuckingGo.addEventListener("click", () => {
 	graph.AStarAlgoritm();
 });
+
+
+const dialog = document.querySelector(".notFoundDialog")
+dialog.addEventListener("click", (event) => {
+	dialog.style.display = "none";
+})
+

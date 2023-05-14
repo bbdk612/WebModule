@@ -374,7 +374,7 @@ class Graph {
 				let timeID = setInterval(() => {
 					if (!(potencial.length > 0)) {
 						clearInterval(timeID);
-						completed(true);
+						completed(false);
 					}
 					min = bigNum;
 					for (let i = 0; i < potencial.length; i++) {
@@ -432,7 +432,9 @@ class Graph {
 		}
 
 		let mainDraw = await mainfuncdrawing();
-		console.log("ok", potencialDrawed, mainDraw);
+		if (!mainDraw) {
+			
+		}
 		//way output
 
 		let rightPath = Array();
