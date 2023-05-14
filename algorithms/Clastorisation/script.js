@@ -50,6 +50,7 @@ const ctx = document.querySelector("canvas").getContext("2d");
 
 const canvas = document.querySelector("canvas");
 
+let counter = 0;
 const createPoints = (canvas, event) => {
     startKMeans.disabled = false
     startCC.disabled = false
@@ -57,9 +58,10 @@ const createPoints = (canvas, event) => {
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
 
-    let point = new Point(x, y)
+    let point = new Point(x, y, counter)
     points.push(point);
     point.draw();
+    counter++;
 }
 
 canvas.addEventListener("click", (event) => {

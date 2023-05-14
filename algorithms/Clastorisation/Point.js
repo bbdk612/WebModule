@@ -2,10 +2,13 @@ class Point {
   x;
   y;
   color;
-  constructor(x, y) {
+  index;
+
+  constructor(x, y, index) {
     this.x = x;
     this.y = y;
-    this.color = "black";
+    this.color = "black";ф
+    this.index = index;
   }
 
   set color(colorName) {
