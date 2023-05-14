@@ -33,35 +33,32 @@ function conCompClusters(points, alpha_U,alpha_V,beta,gamma,numberOfClusters) {
                 }
             }
         }
+        //creation of newClusters
         let newClusters=[]
-        let newDistanceBetweenClusters= []
-        cluster_W.push(cluster_U)
-        cluster_W.push(cluster_V)
+        cluster_W.push(clusters[cluster_U])
+        cluster_W.push(clusters[cluster_V])
         for (let i = 0;i<points.length;i++){
-            if(clusters[i]===cluster_U||clusters[i]===cluster_V){
+            if(i===cluster_U||i===cluster_V){
                 newClusters.push(clusters[i])
             }
         }
         newClusters.push(cluster_W);
+        //creation of newClustersDistance
+        let newDistanceBetweenClusters = distanceBetweenClusters;
+        newDistanceBetweenClusters.splice(newDistanceBetweenClusters[cluster_V],1)
+        newDistanceBetweenClusters.splice(newDistanceBetweenClusters[cluster_U],1)
         for (let i = 0;i<(clusters.length*clusters.length)-1;i++){
-            let distanceOnceCluster=[]
-            for (let j = i+1; j<clusters.length*clusters.length;j++){
-                if ((i!==cluster_U || i!==cluster_V)||(j!==cluster_U||j!==cluster_V)){
-                    distanceOnceCluster.push(distanceBetweenClusters[i][j])
-                }
-                newDistanceBetweenClusters.push(distanceOnceCluster)
-            }
+            newDistanceBetweenClusters[i].splice(newDistanceBetweenClusters[cluster_V],1)
+            newDistanceBetweenClusters[i].splice(newDistanceBetweenClusters[cluster_U],1)
         }
         for(let i = 0; i<newDistanceBetweenClusters.length;i++){
             newDistanceBetweenClusters.push(lanceWilliams(alpha_U,alpha_V,beta,gamma,distanceBetweenClusters,cluster_U,cluster_V,i))
         }
-        for (let i = 1;i<newDistanceBetweenClusters.length;i++){
-            let distanceOnceCluster=[]
-            for (let j = 0; j<i;j++){
-               distanceOnceCluster.push(newDistanceBetweenClusters[i][j])
-            }
-            newDistanceBetweenClusters.push(distanceOnceCluster)
+        let cluster_WDistance=[];
+        for (let i = 0;i<(clusters.length*clusters.length)-1;i++){
+            cluster_WDistance.push(lanceWilliams(alpha_U,alpha_V,beta,gamma,distanceBetweenClusters,cluster_U,cluster_V,i))
         }
+        newDistanceBetweenClusters.push(cluster_WDistance)
         distanceBetweenClusters=newDistanceBetweenClusters
         clusters=newClusters
     }
