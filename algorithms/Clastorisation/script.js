@@ -1,5 +1,11 @@
 const points = [];
 let k;
+
+const canvas = document.querySelector("canvas")
+
+canvas.width = document.querySelector(".container").clientWidth
+canvas.height = document.querySelector(".container").clientWidth
+
 document.querySelectorAll("input").forEach((input) => {
     input.value = ""
 })
@@ -57,7 +63,6 @@ const randInt = (max, min = 0) => {
 };
 const ctx = document.querySelector("canvas").getContext("2d");
 
-const canvas = document.querySelector("canvas");
 
 let counter = 0;
 const createPoints = (canvas, event) => {
@@ -66,7 +71,9 @@ const createPoints = (canvas, event) => {
     const rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-
+    document.querySelectorAll(".Hierarchy > button").forEach((button) => {
+        button.disabled = false;
+    })
     let point = new Point(x, y, counter)
     points.push(point);
     point.draw();
@@ -110,4 +117,67 @@ startCC.disabled = true
 startCC.addEventListener("click", () => {
     const r = parseInt(document.querySelector("#R").value)
     conCompClusters(points, r)
+})
+
+document.addEventListener("change", (event) => {
+    if (parseInt(event.target.value) > points.length) {
+        document.querySelectorAll(".Hierarchy > button").forEach((button) => {
+            button.disabled = true;
+        })
+    }
+})
+
+document.querySelector(".closeNeighbour").addEventListener("click", () => {
+    const canvas = document.querySelector("canvas")
+    let k = parseInt(document.querySelector("#hK").value)
+    let colors = []
+    let color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+    for (let  i = 0; i < 3;) {
+        if (!colors.includes(color)) {
+            colors.push(color)
+            color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+            i++
+        }
+    }
+    const clusters = HierarchyClusters(points, 0.5, 0.5, 0, -0.5, k);
+    for (let i = 0; i < clusters.length; i++) {
+        let color = colors[i]
+        for (let j = 0; j < clusters[i].length; j++) {
+            points[clusters[i][j]].color = color;
+        }
+    }
+    const ctx = document.querySelector("canvas").getContext("2d")
+    ctx.beginPath()
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (let point of points) {
+        point.draw()
+    }
+    ctx.closePath()
+})
+
+document.querySelector(".farNeighbour").addEventListener("click", () => {
+    let k = parseInt(document.querySelector("#hK").value)
+    let colors = []
+    let color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+    for (let  i = 0; i < 3;) {
+        if (!colors.includes(color)) {
+            colors.push(color)
+            color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+            i++
+        }
+    }
+    const clusters = HierarchyClusters(points, 0.5, 0.5, 0, 0.5, k);
+    for (let i = 0; i < clusters.length; i++) {
+        let color = colors[i]
+        for (let j = 0; j < clusters[i].length; j++) {
+            points[clusters[i][j]].color = color;
+        }
+    }
+    const ctx = document.querySelector("canvas").getContext("2d")
+    ctx.beginPath()
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for (let point of points) {
+        point.draw()
+    }
+    ctx.closePath()
 })

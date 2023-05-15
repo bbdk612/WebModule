@@ -111,9 +111,7 @@ function HierarchyClusters(
     }
     //clusters = newClusters
     distanceBetweenClusters = [...newDistanceBetweenClusters];
-    console.log("distanceBetweenClusters",distanceBetweenClusters)
     clusters = [...newClusters];
   }
-  console.log(clusters);
   return clusters
 }
