@@ -315,26 +315,24 @@ class Graph {
 	async AStarAlgoritm() {
 		const bigNum = 100000000;
 		let minDis = Array(); //minimal distance from start to this point
-		let heuristicCost = Array(); //minimal distance from this point to end
+		let heuristicCost = Array(this.size * this.size); //minimal distance from this point to end
 		let coefficient = Array(); //minDis + heuristicCost
 		let noWayNodes = this.noWayNodes;
-        console.log(noWayNodes);
 		let potencialForDraw = Array();
 		let min; //minimal distance in way: start->current point->one of potencial points
 		let potencial = Array(); //array of point that border with visited points
 		let minIndex = 0; //closest to end potencial point
 		let nodesAround;
 
-		console.log(this.start);
-		console.log(this.finish);
 		//setting start data
 		for (let i = 0; i < this.size * this.size; i++) {
 			minDis.push(bigNum);
 		}
-
+		let s = this.start;
+		let f = this.finish;
 		//setting start point
 		minDis[this.start] = 0;
-		heuristicCost[this.start] = this.approachToEnd(this.start);
+		heuristicCost[this.start] = this.approachToEnd(this.start, this.finish, this.size);
 		let Size = this.size;
 		let appToEnd = this.approachToEnd;
 		let M = this.M;
@@ -349,25 +347,23 @@ class Graph {
 					potencialForDraw.push(nodesAround[i]);
 					//TODO: create colors to "potential" point
 					minDis[nodesAround[i]] = 1; //TODO:заменить 1 на вес ребра
-					heuristicCost[nodesAround[i]] = appToEnd(nodesAround[i], Size);
+					heuristicCost[nodesAround[i]] = appToEnd(nodesAround[i], f,Size);
 					coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
 						heuristicCost[nodesAround[i]];
 					i++;
 					if (i == nodesAround.length) {
 						clearInterval(timeID);
-						drawed(true);
+						drawed(heuristicCost);
 					}
 				}, 50);
 			});
 		}
-
-		let potencialDrawed = await potencialGenNDraw();
+		heuristicCost = await potencialGenNDraw();
 		let lookA = this.lookAround;
 		//algor
 		let visited = Array();
 		minIndex = this.start;
-		let s = this.start;
-		let f = this.finish;
+
 
 		function mainfuncdrawing() {
 			return new Promise(completed => {
@@ -411,7 +407,7 @@ class Graph {
 								//TODO: create colours to "potential" point
 								minDis[nodesAround[i]] = minDis[minIndex] + 1; //TODO:заменить 1 на вес ребра
 								heuristicCost[nodesAround[i]] = appToEnd(
-									nodesAround[i], Size
+									nodesAround[i], f, Size
 								);
 								coefficient[nodesAround[i]] = minDis[nodesAround[i]] +
 									heuristicCost[nodesAround[i]];
@@ -499,7 +495,7 @@ class Graph {
 		await draw();
 	}
 
-	approachToEnd(nodeNumber, size) {
+	approachToEnd(nodeNumber, F, size) {
 		let coorOfN = (nodeNumber) => {
 			let x = Math.floor((nodeNumber) / size);
 			let y = (nodeNumber) % size;
@@ -509,8 +505,7 @@ class Graph {
 		let {x, y} = coorOfN(nodeNumber);
 		let nodeX = x;
 		let nodeY = y;
-		let finish = coorOfN(nodeNumber);
-
+		let finish = coorOfN(F);
 		return (Math.abs(nodeX - finish.x) + Math.abs(nodeY - finish.y));
 	}
 }
