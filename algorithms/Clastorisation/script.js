@@ -34,6 +34,15 @@ const chooseType = (event) => {
             hideFields()
             document.querySelector("fieldset.connectedComponents").style.display = "flex"
             break
+        case "chooseHierarchy":
+            enableChooseButtons()
+            event.target.disabled = true;
+            document.querySelectorAll(".Hierarchy > button").forEach((button) => {
+                button.disabled = true;
+            })
+            hideFields()
+            document.querySelector("fieldset.Hierarchy").style.display = "flex"
+            break
     }
 }
 

@@ -14,6 +14,7 @@
         <div class="chooseType">
             <button class="chooseKMeans">K-средние</button>
             <button class="chooseCC">Связные компоненты</button>
+            <button class="chooseHierarchy">Иерархический</button>
         </div>
         <div class="inputs">
             <fieldset class="k-means">
@@ -26,7 +27,11 @@
                 <input type="number" name="R" id="R">
                 <button id="startCC">START</button>
             </fieldset>
-
+            <fieldset class="Hierarchy">
+                <input type="number" name="k" id="hK">
+                <button class="button closeNeighbour" >Рассотяние ближайших соседей</button>
+                <button class="button farNeighbour">Расcтояние дальних сосeдей</button>
+            </fieldset>
         </div>
         <canvas id="clastoristionField" width="500" height="500"></canvas>
 
@@ -35,6 +40,7 @@
     <script src="./Clastorisation/Claster.js"></script>
     <script src="./Clastorisation/ConectedCompotentsGraph.js"></script>
     <script src="./Clastorisation/ConnectedComponentsAlg.js"></script>
+    <script src="./Clastorisation/ConnectedComponentsHierarchy.js"></script>
     <script src="./Clastorisation/script.js"></script>
 </body>
 
