@@ -24,20 +24,24 @@
                 <div>
                     <table>
                         <tr>
-                            <td>Размер Колонии</td>
-                            <td><input type="number" id="SizeColony"></td>
+                            <td>Количество итераций</td>
+                            <td><input type="number" id="numberOfGeneration"></td>
+                        </tr>
+                        <tr>
+                            <td>Q</td>
+                            <td><input type="number" id="Q"><label> * Количество феромона оставляемое муравьём </label></td>
                         </tr>
                         <tr>
                             <td>&alpha;</td>
-                            <td><input type="number" id="Alpha"><label> * </label></td>
+                            <td><input type="number" id="Alpha"><label> * Коэффициент приоритета феромона</label></td>
                         </tr>
                         <tr>
                             <td>&beta;</td>
-                            <td><input type="number" id="Beta"><label> * </label></td>
+                            <td><input type="number" id="Beta"><label> * Коэффициент приоритета расстояния</label></td>
                         </tr>
                         <tr>
                             <td>&rho;</td>
-                            <td><input type="number" id="Rho"><label> * коэффициент испарения феромона </label></td>
+                            <td><input type="number" id="Rho"><label> * Коэффициент испарения феромона </label></td>
                         </tr>
                         <td colspan="2">
                             <button id="start" class="button">Start</button>
