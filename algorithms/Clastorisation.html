@@ -1,12 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Clastorisation/style.css">
     <title>Алгоритм кластеризации</title>
 </head>
+
 <body>
-    <!--TODO: тут реализация алгоритма кластеризации -->
+    <main>
+        <div class="chooseType">
+            <button class="chooseKMeans">K-средние</button>
+            <button class="chooseCC">Связные компоненты</button>
+            <button class="chooseHierarchy">Иерархический</button>
+        </div>
+        <div class="inputs">
+            <fieldset class="k-means">
+                <legend>Введи кол-во кластеров</legend>
+                <input type="number" name="k" id="k">
+                <button id="startKMeans">Start</button>
+            </fieldset>
+            <fieldset class="connectedComponents">
+                <legend>Введи R</legend>
+                <input type="number" name="R" id="R">
+                <button id="startCC">START</button>
+            </fieldset>
+            <fieldset class="Hierarchy">
+                <input type="number" name="k" id="hK">
+                <button class="button closeNeighbour" >Рассотяние ближайших соседей</button>
+                <button class="button farNeighbour">Расcтояние дальних сосeдей</button>
+            </fieldset>
+        </div>
+        <canvas id="clastoristionField" width="500" height="500"></canvas>
+
+    </main>
+    <script src="./Clastorisation/Point.js"></script>
+    <script src="./Clastorisation/Claster.js"></script>
+    <script src="./Clastorisation/ConectedCompotentsGraph.js"></script>
+    <script src="./Clastorisation/ConnectedComponentsAlg.js"></script>
+    <script src="./Clastorisation/ConnectedComponentsHierarchy.js"></script>
+    <script src="./Clastorisation/script.js"></script>
 </body>
+
 </html>

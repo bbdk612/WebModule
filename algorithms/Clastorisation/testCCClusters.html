@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+    <canvas width="500" height="500"></canvas>
+    <button id="start"></button>
+
+
+    <script src="./Point.js"></script>
+    <script src="./ConnectedComponentsHierarchy.js"></script>
+
+    <script>
+        let points = []
+        let counter = 0
+        function createPoints(event) {
+            const canvas = document.querySelector("canvas")
+            const rect = canvas.getBoundingClientRect()
+            const x = event.clientX - rect.left
+            const y = event.clientY - rect.top
+
+            let point = new Point(x, y, counter)
+            point.draw()
+            points.push(point)
+            counter++
+        }
+
+
+        const randInt = (max, min = 0) => {
+            return Math.floor(min + Math.random() * (max + 1 - min));
+        };
+
+        const canvas = document.querySelector("canvas")
+
+        canvas.addEventListener("click", createPoints)
+
+        let colors = []
+
+        const start = document.querySelector("#start")
+
+        start.addEventListener("click", () => {
+            console.log(points)
+            let color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+            for (let  i = 0; i < 3;) {
+                if (!colors.includes(color)) {
+                    colors.push(color)
+                    color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+                    i++
+                }
+            }
+            let clusters = HierarchyClusters(points, 0.5, 0.5, 0, -0.5, 3)
+            for (let i = 0; i < clusters.length; i++) {
+                let color = colors[i]
+                for (let j = 0; j < clusters[i].length; j++) {
+                    points[clusters[i][j]].color = color;
+                }
+            }
+            const ctx = document.querySelector("canvas").getContext("2d")
+            ctx.beginPath()
+            ctx.clearRect(0, 0, 500, 500)
+            for (let point of points) {
+                point.draw()
+            }
+            ctx.closePath()
+        })
+    </script>
+</body>
+</html>
