@@ -15,6 +15,7 @@
     <canvas width="500" height="500"></canvas>
     <button id="start"></button>
 
+
     <script src="./Point.js"></script>
     <script src="./ConnectedComponentsHierarchy.js"></script>
 
@@ -33,13 +34,36 @@
             counter++
         }
 
+
+        const randInt = (max, min = 0) => {
+            return Math.floor(min + Math.random() * (max + 1 - min));
+        };
         const canvas = document.querySelector("canvas")
         canvas.addEventListener("click", createPoints)
-
+        let colors = []
         const start = document.querySelector("#start")
         start.addEventListener("click", () => {
             console.log(points)
-            HierarchyClusters(points, 0.5, 0.5, 0, -0.5, 3)
+            let color = `rgb(${randInt(255)}, ${randInt(255)}, ${randInt(255)})`
+            for (let  i = 0; i < 3;) {
+                if (!colors.includes(color)) {
+                    colors.push(color)
+                }
+            }
+            let clusters = HierarchyClusters(points, 0.5, 0.5, 0, -0.5, 3)
+            for (let i = 0; i < clusters.length; i++) {
+                let color = colors[i]
+                for (let j = 0; j < clusters[i].length; j++) {
+                    points[clusters[i][j]].color = color;
+                }
+            }
+            const ctx = document.querySelector("canvas").getContext("2d")
+            ctx.beginPath()
+            ctx.clearRect(0, 0, 500, 500)
+            for (let point of points) {
+                point.draw()
+            }
+            ctx.closePath()
         })
     </script>
 </body>

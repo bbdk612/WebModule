@@ -115,4 +115,5 @@ function HierarchyClusters(
     clusters = [...newClusters];
   }
   console.log(clusters);
+  return clusters
 }
