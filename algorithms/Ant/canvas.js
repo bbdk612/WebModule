@@ -7,14 +7,17 @@ canvas.width = container.clientWidth - 2;
 canvas.height = container.clientWidth - 2;
 
 let vertexes = [];
-let size = container.width;
+let size = canvas.width;
 
 canvas.addEventListener('click', mouseClick);
 document.getElementById("clear").onclick = Clear;
 document.getElementById("start").onclick = ACO;
 
 function Clear(){
+    context.beginPath()
     context.clearRect(0, 0, size, size)
+    vertexes = []
+    context.closePath()
 }
 
 function mouseClick(e){
